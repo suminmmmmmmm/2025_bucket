@@ -23,6 +23,11 @@ public class Todo {
     private LocalDate goal_day;
     private LocalDateTime create_at;
     private LocalDateTime modified_at;
+
+    @Lob // BLOB 타입으로 매핑
+    @Column(name = "BUCKET_IMAGE") // 데이터베이스 컬럼 이름 지정
+    private byte[] bucketImage;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
@@ -33,7 +38,7 @@ public class Todo {
     @Builder
     public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
                 LocalDateTime create_at, LocalDateTime modified_at,
-                User user,  List<Review> reviews){
+                User user,  List<Review> reviews, byte[] bucketImage) {
         this.id = id;
         this.content = content;
         this.goal_day = goal_day;
@@ -42,5 +47,6 @@ public class Todo {
         this.check_complete = check_complete;
         this.user = user;
         this.reviews = reviews;
+        this.bucketImage = bucketImage;
     }
 }
