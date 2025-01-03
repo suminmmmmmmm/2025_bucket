@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>수정</title>
+</head>
+<body>
+    <form method="post" th:object="${todoForm}">
+      <div>
+        <label for="content">수정할 내용 작성</label>
+      </div>
+      <div>
+        <textarea th:field="*{content}" id="content"></textarea>
+      </div>
+      <div>
+        <label for="goal_day" ></label>
+      </div>
+      <div>
+        <input type="date" id="goal_day" th:field="*{goal_day}" >
+      </div>
+      <div>
+        <input type="submit" value="수정하기">
+      </div>
+    </form>
+</body>
+</html>

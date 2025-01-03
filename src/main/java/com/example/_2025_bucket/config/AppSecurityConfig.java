@@ -20,8 +20,17 @@ public class AppSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
                 .authorizeRequests()
-                .requestMatchers("/", "/list", "list/detail/**", "/detail/**", "/error").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/", "/list", "list/detail/**", "/detail/**", "/error",
+                                    "/login", "/signin").permitAll()
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/list")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/list")
+                .invalidateHttpSession(true)
                 .and()
                 .csrf().disable()
                 .build();

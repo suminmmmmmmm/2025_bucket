@@ -1,7 +1,9 @@
 package com.example._2025_bucket.Service;
 
 import com.example._2025_bucket.dto.TodoDto;
+import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.entity.Todo;
+import com.example._2025_bucket.entity.User;
 import com.example._2025_bucket.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,4 +34,9 @@ public class TodoService {
         }
         else throw new NoSuchElementException("해당 Todo없음");
     }
+
+    public void update(TodoDto todoDto) {
+        this.todoRepository.save(todoDto.toEntity());
+    }
+
 }

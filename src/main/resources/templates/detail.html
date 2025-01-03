@@ -7,5 +7,6 @@
 <body>
 <!-- model을 이용해서 todoDTO를 넘김 -->
 <div th:text="|상세보기: ${todoDto}|"></div>
+<a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
 </body>
 </html>
