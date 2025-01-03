@@ -8,5 +8,21 @@
 <!-- model을 이용해서 todoDTO를 넘김 -->
 <div th:text="|상세보기: ${todoDto}|"></div>
 <a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
+
+<form th:action="|/review/create/${todoDto.getId()}|" method="post">
+    <label>
+        <input type="text" name="content" id="content" placeholder="댓글입력">
+    </label>
+    <input type="submit" value="댓글달기">
+</form>
+
+<table th:each="review : ${todoDto.getReviews()}">
+    <tr>
+        <td th:text="${review.getContent()}" ></td>
+        <td><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
+        <td><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+    </tr>
+</table>
+
 </body>
 </html>
