@@ -36,4 +36,9 @@ public class ReviewService {
     public void update(ReviewDto reviewDto) {
         Review review = this.reviewRepository.save(reviewDto.toEntity());
     }
+
+    public void delete(ReviewDto reviewDto) {
+        Review review = this.reviewRepository.getReviewById(reviewDto.getId());
+        this.reviewRepository.delete(review);
+    }
 }

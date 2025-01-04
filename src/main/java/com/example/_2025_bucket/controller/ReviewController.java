@@ -64,15 +64,29 @@ public class ReviewController {
             ReviewDto reviewDto = this.reviewService.getReview(id);
             reviewDto.setContent(reviewForm.getContent());
             reviewDto.setModified_at(LocalDateTime.now());
+            System.out.printf(reviewDto.toString());
             this.reviewService.update(reviewDto);
 
-            System.out.println("review updated");
             return "redirect:/list/detail/"+ reviewDto.getTodo().getId();
         }catch (Exception e){
 
         }
 
         return "redirect:/list/detail/"+reviewForm.getTodoId();
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteReview(@PathVariable("id") long id) {
+        try{
+            ReviewDto reviewDto = this.reviewService.getReview(id);
+            this.reviewService.delete(reviewDto);
+            return "redirect:/list/detail/"+reviewDto.getTodo().getId();
+        }catch (Exception e){
+
+        }
+        // 돌아갈 곳이 없어서 임시로 홈페이지로 리디렉션
+        return "redirect:/";
+
     }
 
 }

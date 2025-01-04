@@ -25,6 +25,7 @@ public class ReviewDto {
                 .create_at(this.create_at)
                 .id(this.id)
                 .todo(this.todo)
+                .modify_at(this.modified_at)
                 .build();
     }
 }
