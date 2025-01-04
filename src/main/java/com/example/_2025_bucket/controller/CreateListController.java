@@ -7,6 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class CreateListController {
@@ -24,10 +28,12 @@ public class CreateListController {
         return "create-form"; // create-form.html 페이지 렌더링
     }
 
-    // 폼 데이터를 처리
     @PostMapping("/create")
     public String handleCreateForm(@ModelAttribute TodoDto todoDto) {
-        todoService.createTodo(todoDto); // 서비스에 DTO 전달
+        todoService.createTodo(todoDto); // DTO 전달
         return "redirect:/list"; // 저장 후 리스트 페이지로 리다이렉트
     }
+
+
+
 }

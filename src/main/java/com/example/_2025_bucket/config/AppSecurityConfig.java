@@ -15,7 +15,7 @@ public class AppSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
                 .authorizeRequests()
-                .requestMatchers("/","/create","/error").permitAll()
+                .requestMatchers("/","/create","/error","/list").permitAll()
                 .anyRequest().authenticated()
                 .and().build();
     }
