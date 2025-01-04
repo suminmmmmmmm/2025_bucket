@@ -11,4 +11,7 @@ import lombok.ToString;
 public class ReviewForm {
     @NotEmpty(message = "내용을 입력하세요")
     private String content;
+
+    private long id; // 댓글의 id
+    private long todoId;
 }

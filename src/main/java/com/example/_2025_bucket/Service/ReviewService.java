@@ -32,4 +32,8 @@ public class ReviewService {
                     .id(id)
                     .build();
     }
+
+    public void update(ReviewDto reviewDto) {
+        Review review = this.reviewRepository.save(reviewDto.toEntity());
+    }
 }

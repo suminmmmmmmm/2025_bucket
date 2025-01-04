@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글수정</title>
+</head>
+<body>
+<div th:text="|Todo : ${reviewForm.getTodoId()}|"></div>
+<div th:text="|Content : ${reviewForm.getContent()}|"></div>
+<div th:text="|Id : ${reviewForm.getId()}|"></div>
+<form method="post" th:object="${reviewForm}">
+    <div>
+        <label for="content">수정할 댓글</label>
+    </div>
+    <div>
+        <textarea th:field="*{content}" id="content" placeholder="수정할 댓글 입력"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="수정">
+    </div>
+</form>
+
+</body>
+</html>

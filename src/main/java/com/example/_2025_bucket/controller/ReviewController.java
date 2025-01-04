@@ -6,9 +6,14 @@ import com.example._2025_bucket.dto.ReviewDto;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.form.ReviewForm;
 import com.example._2025_bucket.repository.TodoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RequestMapping("/review")
 @Controller
@@ -36,10 +41,38 @@ public class ReviewController {
 
     @GetMapping("/modify/{id}")
     public String modifyReview(@PathVariable("id") long id,
-                               ReviewForm reviewForm){
+                               Model model,
+                               ReviewForm reviewForm) {
+        // id : 댓글의 id
         ReviewDto reviewDto = this.reviewService.getReview(id);
-        reviewDto.setContent(reviewForm.getContent());
+        reviewForm.setContent(reviewDto.getContent());
+        reviewForm.setId(reviewDto.getId());
+        reviewForm.setTodoId(reviewDto.getTodo().getId());
+        model.addAttribute("reviewForm", reviewForm);
+
         return "review_modify";
+    }
+
+    @PostMapping("/modify/{id}")
+    public String modifyReview(@PathVariable("id") long id,
+                               @Valid ReviewForm reviewForm,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "review_modify";
+        }
+        try{
+            ReviewDto reviewDto = this.reviewService.getReview(id);
+            reviewDto.setContent(reviewForm.getContent());
+            reviewDto.setModified_at(LocalDateTime.now());
+            this.reviewService.update(reviewDto);
+
+            System.out.println("review updated");
+            return "redirect:/list/detail/"+ reviewDto.getTodo().getId();
+        }catch (Exception e){
+
+        }
+
+        return "redirect:/list/detail/"+reviewForm.getTodoId();
     }
 
 }

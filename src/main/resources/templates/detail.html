@@ -21,6 +21,7 @@
         <td th:text="${review.getContent()}" ></td>
         <td><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
         <td><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+        <td th:if="${review.getModify_at()!=null}" th:text="수정됨"></td>
     </tr>
 </table>
 

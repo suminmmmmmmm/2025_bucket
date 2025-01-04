@@ -18,6 +18,7 @@ public class Review {
     private long id;
     private String content;
     private LocalDateTime create_at;
+    private LocalDateTime modify_at;
     @ManyToOne
     private Todo todo;
 
