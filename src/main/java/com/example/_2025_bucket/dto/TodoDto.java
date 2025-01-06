@@ -25,6 +25,7 @@ public class TodoDto {
     private LocalDateTime modified_at;
     private User user;
     private List<Review> reviews;
+    private String image_path;
 
     public Todo toEntity(){
         return Todo.builder()
@@ -36,6 +37,7 @@ public class TodoDto {
                 .modified_at(this.modified_at)
                 .user(this.user)
                 .reviews(this.reviews)
+                .image_path(this.image_path)
                 .build();
     }
 }

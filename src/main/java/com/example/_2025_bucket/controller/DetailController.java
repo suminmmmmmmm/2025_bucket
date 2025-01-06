@@ -1,37 +1,42 @@
 package com.example._2025_bucket.controller;
 
-import com.example._2025_bucket.Service.TodoService;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
+import com.example._2025_bucket.service.TodoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 
 @Controller
 @RequestMapping("/list")
+
 public class DetailController {
     @Autowired
     private TodoService todoService;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    //@Autowired
+    //private UserDetailsService userDetailsService;
+
+    // 썸네일 저장 경로
+    private static final String URL = "src/main/resources/static/uploads/";
 
     //상세보기
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id") long id, Model model) {
-        System.out.printf("상세보기 "+ id + "요청됨");
-
         try {
             TodoDto todoDto = todoService.getTodo(id);
+
             System.out.println(todoDto.toString());
+
             model.addAttribute("todoDto", todoDto); // 아이디값 화면에 전달
         }
         catch (Exception e) {
@@ -48,14 +53,12 @@ public class DetailController {
             Model model) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
-            System.out.println(todoDto.toString() + "GET");
             todoForm.setContent(todoDto.getContent());
 
         }
         catch (Exception e) {
-
+            //버킷리스트가 없을때 로직
         }
-        System.out.printf("modify에 들어간 내용: "+todoForm.getContent());
         return "modify";
     }
 
@@ -68,14 +71,27 @@ public class DetailController {
         if(bindingResult.hasErrors()) {
             return "modify";
         }
-        this.todoService.update(TodoDto.builder()
-                        .content(todoForm.getContent())
-                        .goal_day(todoForm.getGoal_day())
-                        .modified_at(LocalDateTime.now())
-                        .id(id)
-                        //.user(userDetailsService.loadUserByUsername( SecurityContextHolder.getContext().getAuthentication().getName()))
-                        // 나중에 인증 / 세션 구현한 후 추가
-                        .build());
+        MultipartFile file = todoForm.getFile();
+        Path filaPath = Paths.get(URL + todoForm.getFile().getOriginalFilename());
+        System.out.println("\n업로드 파일 경로: " + (filaPath.toString()));
+        try{
+            Files.write(filaPath, file.getBytes());
+            TodoDto todoDto = this.todoService.getTodo(id);
+            System.out.println("조회된 TOOD: " + todoDto.toString());
+            todoDto.setContent(todoForm.getContent());
+            todoDto.setGoal_day(todoForm.getGoal_day());
+            todoDto.setImage_path(todoForm.getFile().getOriginalFilename());
+            System.out.println(file.getOriginalFilename());
+            todoDto.setModified_at(LocalDateTime.now());
+
+            System.out.printf(todoDto.toString());
+
+            this.todoService.update(todoDto);
+        }catch (Exception e) {
+            // 파일 입력 실패시 로직
+            System.out.println("파일저장실패");
+        }
+
         return "redirect:/list/detail/" + id;
     }
 }

@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +17,6 @@ public class TodoForm {
     private String content;
     @NotNull(message = "날짜를 선택하세요")
     private LocalDate goal_day;
+
+    private MultipartFile file;
 }

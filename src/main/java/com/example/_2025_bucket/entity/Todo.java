@@ -23,6 +23,7 @@ public class Todo {
     private LocalDate goal_day;
     private LocalDateTime create_at;
     private LocalDateTime modified_at;
+    private String image_path;
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
@@ -33,7 +34,7 @@ public class Todo {
     @Builder
     public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
                 LocalDateTime create_at, LocalDateTime modified_at,
-                User user,  List<Review> reviews){
+                User user,  List<Review> reviews, String image_path) {
         this.id = id;
         this.content = content;
         this.goal_day = goal_day;
@@ -42,5 +43,6 @@ public class Todo {
         this.check_complete = check_complete;
         this.user = user;
         this.reviews = reviews;
+        this.image_path = image_path;
     }
 }

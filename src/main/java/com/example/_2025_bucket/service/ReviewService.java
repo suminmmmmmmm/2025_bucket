@@ -1,4 +1,4 @@
-package com.example._2025_bucket.Service;
+package com.example._2025_bucket.service;
 
 import com.example._2025_bucket.dto.ReviewDto;
 import com.example._2025_bucket.dto.TodoDto;

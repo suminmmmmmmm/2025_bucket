@@ -1,11 +1,10 @@
 package com.example._2025_bucket.controller;
 
-import com.example._2025_bucket.Service.ReviewService;
-import com.example._2025_bucket.Service.TodoService;
+import com.example._2025_bucket.service.ReviewService;
+import com.example._2025_bucket.service.TodoService;
 import com.example._2025_bucket.dto.ReviewDto;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.form.ReviewForm;
-import com.example._2025_bucket.repository.TodoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -7,6 +7,9 @@
 <body>
 <!-- model을 이용해서 todoDTO를 넘김 -->
 <div th:text="|상세보기: ${todoDto}|"></div>
+<div>
+    <img th:src="@{|/uploads/${todoDto.getImage_path()}|}" alt="NOIMG"/>
+</div>
 <a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
 
 <form th:action="|/review/create/${todoDto.getId()}|" method="post">
