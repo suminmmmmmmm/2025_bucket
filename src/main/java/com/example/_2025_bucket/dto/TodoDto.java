@@ -26,18 +26,19 @@ public class TodoDto {
     private LocalDateTime modified_at;
     private User user;
     private List<Review> reviews;
-    private MultipartFile bucketImage; // MultipartFile 타입으로 변경
+    //private MultipartFile bucketImage; // MultipartFile 타입으로 변경
+    private String imagePath; // 이미지 경로 저장
 
     public Todo toEntity() {
-        byte[] imageBytes = null;
-
-        try {
-            if (this.bucketImage != null && !this.bucketImage.isEmpty()) {
-                imageBytes = this.bucketImage.getBytes(); // MultipartFile → byte[] 변환
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        byte[] imageBytes = null;
+//
+//        try {
+//            if (this.bucketImage != null && !this.bucketImage.isEmpty()) {
+//                imageBytes = this.bucketImage.getBytes(); // MultipartFile → byte[] 변환
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return Todo.builder()
                 .id(this.id)
@@ -48,7 +49,8 @@ public class TodoDto {
                 .modified_at(this.modified_at)
                 .user(this.user)
                 .reviews(this.reviews)
-                .bucketImage(imageBytes) // 변환된 byte[] 데이터 전달
+//                .bucketImage(imageBytes) // 변환된 byte[] 데이터 전달
+                .imagePath(this.imagePath)
                 .build();
     }
 

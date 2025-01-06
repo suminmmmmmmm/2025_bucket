@@ -15,7 +15,7 @@ public class AppSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
                 .authorizeRequests()
-                .requestMatchers("/","/create","/error","/list").permitAll()
+                .requestMatchers("/","/create","/error","/list","/uploads/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and().build();
     }
@@ -27,4 +27,6 @@ public class AppSecurityConfig {
                 .requestMatchers(toH2Console())
                 .requestMatchers("/static/**");
     }
+
+
 }
