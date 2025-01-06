@@ -1,0 +1,21 @@
+<!-- 오른쪽 navbar links -->
+<nav th:fragment="frag_navibar" class="main-header navbar navbar-expand navbar-white navbar-light" style="justify-content: flex-end">
+  <ul class="navbar-nav">
+<!--    <li class="nav-item">-->
+<!--      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>-->
+<!--    </li>-->
+    <li class="nav-item d-sm-inline-block">
+      <a href="/" class="nav-link">내 페이지</a>
+    </li>
+    <li class="nav-item d-sm-inline-block">
+      <a href="/auth/logout" class="nav-link">로그아웃</a>
+    </li>
+  </ul>
+
+  <div class="nav-item" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#007bff;color:white;border-radius: 50%;
+                               display: flex;justify-content: center;align-items:center;font-size:30px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                                z-index: 100;">
+    <a href="#" class="nav-link">+</a>
+  </div>
+</nav>
+<!-- /.navbar -->
