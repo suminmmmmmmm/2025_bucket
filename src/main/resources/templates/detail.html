@@ -6,7 +6,12 @@
 </head>
 <body>
 <!-- model을 이용해서 todoDTO를 넘김 -->
-<div th:text="|상세보기: ${todoDto}|"></div>
+<div th:text="|내용: ${todoDto.getContent()}|"></div>
+<div th:text="|목표기간: ${todoDto.getGoal_day()}|"></div>
+<div th:text="|달성여부: ${todoDto.isCheck_complete()}|"></div>
+<div th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
+<div th:text="|댓글수: ${todoDto.getImage_path()}|"></div>
+
 <div>
     <img th:src="@{|/uploads/${todoDto.getImage_path()}|}" alt="NOIMG"/>
 </div>
