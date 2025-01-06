@@ -1,5 +1,12 @@
+body{
+    min-height: 100vh;
+    background-color: rgba(240, 242, 245);
+}
+
 .list_title{
-    margin-top:20px;
+    padding : 0 0 20px 0 ;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 .list-box-wrap{
     width: 100%;
@@ -21,6 +28,7 @@
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    background: white;
     img{
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;

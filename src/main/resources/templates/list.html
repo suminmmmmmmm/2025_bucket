@@ -3,16 +3,16 @@
 <div class="wrapper" layout:fragment="content">
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header list_title">
+        <div class="content-header list_title" style="background: white">
+            <div th:replace="lib/navibar.html :: frag_navibar"></div>
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row" style="justify-content: center">
                     <div onclick="window.location.href='/'" class="col-sm-6" style="cursor: pointer">
-                        <h1 class="m-0">2025 버킷리스트</h1>
+                        <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div th:replace="lib/navibar.html :: frag_navibar"></div>
         <section class="content">
             <div class="container-fluid">
 
