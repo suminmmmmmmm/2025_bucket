@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html th:decorate="~{lib/layout}">
-<div class="wrapper" th:fragment="content">
+<html layout:decorate="~{lib/layout}">
+<div class="wrapper" layout:fragment="content">
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -45,6 +45,18 @@
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
+
+            <!-- 버킷리스트 목록 grid -->
+            <div class="position-relative p-3 m-3 list-box" style="height:180px;width:240px">
+                <div class="ribbon-wrapper ribbon-lg">
+                    <div class="ribbon bg-info">
+                        "Ribbon"
+                    </div>
+                </div>
+                ????????????
+                <br>
+                with sometihng
+            </div>
         </section>
 
     </div>
