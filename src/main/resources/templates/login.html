@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <link rel="stylesheet" href="/dist/css/login.css">
 </head>
 <body>
-    <fieldset>
-        <form action="/login" method="post">
-            <label for="username">이름(닉네임) : </label>
-            <input type="text" id="username" name="username">
-            <label for="password">비밀번호 : </label>
-            <input type="password" id="password" name="password">
-            <button type="submit">LogIn</button>
-        </form>
-    </fieldset>
+    <div>
+        <div onclick="window.location.href='/'" style="cursor: pointer">
+            <h1 style="color: #007bff;text-align: center">2025 버킷리스트</h1>
+        </div>
+        <fieldset class="login-container">
+            <h2>로그인</h2>
+            <form action="/login" method="post">
+                <label for="username">이름(닉네임)</label>
+                <input type="text" id="username" name="username">
+
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password">
+
+                <button type="submit">로그인</button>
+                <a href="/signup" style="margin-top:20px;display:inline-block;color:darkblue">회원가입</a>
+            </form>
+        </fieldset>
+    </div>
 </body>
 </html>
