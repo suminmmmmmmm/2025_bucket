@@ -1,12 +1,50 @@
-.card-title{
-    color: blue;
+body{
+    min-height: 100vh;
+    background-color: rgba(240, 242, 245);
 }
 
+.list_title{
+    padding : 0 0 20px 0 ;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.list-box-wrap{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.img-fluid{
+    height: 100%;
+    object-fit: cover;
+}
 .list-box{
-    background:#eee;
-    border-radius: 10px;
+    cursor: pointer;
+    width: 400px;
+    max-width: 90%;
+    border: 2px solid #eee;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    img{
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        height: 400px;
+        width: 400px;
+    }
+    p{
+        white-space: nowrap;        /* 텍스트를 한 줄로 표시 */
+        overflow: hidden;           /* 텍스트가 넘치면 숨김 처리 */
+        text-overflow: ellipsis;    /* 넘친 텍스트의 끝에 '...'을 표시 */
+    }
+    span{
+        text-align: right;
+        display: block;
+    }
 }
-
 /*Misc: Miscellaneous*/
 /*Ribbon*/
 .ribbon-wrapper {
