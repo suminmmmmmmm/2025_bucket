@@ -32,7 +32,7 @@ public class CreateListController {
     @Autowired
     private CategoryService categoryService;
 
-    private static final String URL = "src/main/resources/static/images/";
+    private static final String URL = "C:/uploads/images/";
 
     // 폼 페이지를 반환
     @GetMapping("/create")
@@ -53,24 +53,34 @@ public class CreateListController {
         try {
             MultipartFile bucketImage = todoForm.getFile();
             if (!bucketImage.isEmpty()) {
-                // 외부 디렉토리에 저장 경로 설정
-                Path filePath = Paths.get(URL + bucketImage.getOriginalFilename());
+                // 외부 디렉토리에 저장 경로 설정 및 중복제거
+                String fileName = System.currentTimeMillis() + "_" + bucketImage.getOriginalFilename();
+                Path path = Paths.get(URL);
 
-                // 파일 저장
-                Files.write(filePath, bucketImage.getBytes());
+                // 실제 저장될 파일경로
+                System.out.println(path);
+
+                // 저장 디렉토리 체크
+                if (!Files.exists(path)) {
+                    Files.createDirectories(path);
+                }
+
+                Path filePath = path.resolve(fileName);
+                bucketImage.transferTo(filePath.toFile());
 
                 // 저장된 경로를 DTO에 설정
                 TodoDto todoDto = TodoDto.builder()
                         .create_at(LocalDateTime.now())
                         .check_complete(false)
-                        .image_path(bucketImage.getOriginalFilename())
+                        .image_path("/images/" + fileName)
                         .content(todoForm.getContent())
                         .goal_day(todoForm.getGoal_day())
                         .category(categoryService.getCategoryById(todoForm.getCategory()).toEntity())
                         .build();
+                System.out.println(todoDto.toString());
                 this.todoService.save(todoDto);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             // 파일 입력 실패시 로직
         }
         return "redirect:/list"; // 저장 후 리스트 페이지로 리다이렉트

@@ -31,7 +31,7 @@ public class DetailController {
     //private UserDetailsService userDetailsService;
 
     // 썸네일 저장 경로
-    private static final String URL = "src/main/resources/static/images/";
+    private static final String URL = "C:/uploads/images/";
 
 
     @GetMapping("")
@@ -84,19 +84,25 @@ public class DetailController {
         if(bindingResult.hasErrors()) {
             return "modify";
         }
-        MultipartFile file = todoForm.getFile();
-        Path filePath = Paths.get(URL + todoForm.getFile().getOriginalFilename());
         try{
-            Files.write(filePath, file.getBytes());
-
+            MultipartFile bucketImage = todoForm.getFile();
             TodoDto todoDto = this.todoService.getTodo(id);
+            if (!bucketImage.isEmpty()) {
+                String fileName = System.currentTimeMillis() + "_" + bucketImage.getOriginalFilename();
+                Path path = Paths.get(URL);
 
-            System.out.printf("불러온 TODO id : " + todoDto.getId());
-            System.out.printf(todoDto.toString());
+                if (!Files.exists(path)) {
+                    Files.createDirectories(path);
+                }
+
+                Path filePath = path.resolve(fileName);
+                bucketImage.transferTo(filePath.toFile());
+
+                todoDto.setImage_path("/images/" + fileName);
+            }
 
             todoDto.setContent(todoForm.getContent());
             todoDto.setGoal_day(todoForm.getGoal_day());
-            todoDto.setImage_path(todoForm.getFile().getOriginalFilename());
             todoDto.setCategory(this.categoryService.getCategoryById(todoForm.getCategory()).toEntity());
 
             todoDto.setModified_at(LocalDateTime.now());

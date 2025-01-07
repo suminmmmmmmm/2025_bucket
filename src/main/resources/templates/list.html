@@ -34,7 +34,7 @@
     <!-- 이미지 -->
     <div>
         <img th:if="${todoDto.getImage_path() != null}"
-             th:src="@{|/images/${todoDto.getImage_path()}|}"
+             th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
              alt="Todo Image" width="200" height="200">
     </div>
     <!-- 제목 -->
