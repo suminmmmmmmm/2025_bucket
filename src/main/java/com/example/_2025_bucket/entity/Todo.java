@@ -29,7 +29,7 @@ public class Todo {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "CATEGORY_ID") // CATEGORY 테이블과 연관
     private Category category;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)

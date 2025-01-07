@@ -17,6 +17,6 @@ public class TodoForm {
     private String content;
     @NotNull(message = "날짜를 선택하세요")
     private LocalDate goal_day;
-
+    private int category;
     private MultipartFile file;
 }

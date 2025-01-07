@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Create a New Todo</h1>
-<form th:action="@{/create}" th:object="${todoDto}" method="post" enctype="multipart/form-data">
+<form th:action="@{/create}" th:object="${todoForm}" method="post" enctype="multipart/form-data">
     <label for="content">Content:</label>
     <input type="text" id="content" name="content" th:field="*{content}" required><br>
 
@@ -13,7 +13,16 @@
     <input type="date" id="goal_day" name="goal_day" th:field="*{goal_day}" required><br>
 
     <label for="bucketImage">Upload Image:</label>
-    <input type="file" id="bucketImage" name="bucketImage"><br>
+    <input type="file" id="bucketImage" name="bucketImage" th:field="*{file}"><br>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}">
+        </option>
+    </select>
 
     <button type="submit">Create</button>
 </form>

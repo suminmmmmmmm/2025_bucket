@@ -10,12 +10,14 @@
 <div th:text="|목표기간: ${todoDto.getGoal_day()}|"></div>
 <div th:text="|달성여부: ${todoDto.isCheck_complete()}|"></div>
 <div th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
-<div th:text="|댓글수: ${todoDto.getImage_path()}|"></div>
+<div th:text="|파일명: ${todoDto.getImage_path()}|"></div>
+<div th:text="|카테고리: ${todoDto.getCategory().name}|"></div>
 
 <div>
     <img th:src="@{|/images/${todoDto.getImage_path()}|}" alt="NOIMG"/>
 </div>
 <a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
+<a th:href="|/list/delete/${todoDto.getId()}|">삭제</a>
 
 <form th:action="|/review/create/${todoDto.getId()}|" method="post">
     <label>
