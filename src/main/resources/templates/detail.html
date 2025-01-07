@@ -5,7 +5,38 @@
     <title>Detail</title>
 </head>
 <body>
+<a th:href="|/list|">목록으로</a>
 <!-- model을 이용해서 todoDTO를 넘김 -->
-<div th:text="|상세보기: ${todoDto}|"></div>
+<div th:text="|내용: ${todoDto.getContent()}|"></div>
+<div th:text="|목표기간: ${todoDto.getGoal_day()}|"></div>
+<div th:text="|달성여부: ${todoDto.isCheck_complete()}|"></div>
+<div th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
+<div th:text="|파일명: ${todoDto.getImage_path()}|"></div>
+<div th:text="|카테고리: ${todoDto.getCategory().name}|"></div>
+
+<div>
+
+    <img th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
+         alt="NOIMG"/>
+</div>
+<a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
+<a th:href="|/list/delete/${todoDto.getId()}|">삭제</a>
+
+<form th:action="|/review/create/${todoDto.getId()}|" method="post">
+    <label>
+        <input type="text" name="content" id="content" placeholder="댓글입력">
+    </label>
+    <input type="submit" value="댓글달기">
+</form>
+
+<table th:each="review : ${todoDto.getReviews()}">
+    <tr>
+        <td th:text="${review.getContent()}" ></td>
+        <td><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
+        <td><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+        <td th:if="${review.getModify_at()!=null}">수정됨</td>
+    </tr>
+</table>
+
 </body>
 </html>

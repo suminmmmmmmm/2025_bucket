@@ -1,44 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
-    <link rel="stylesheet" href="/dist/css/login.css">
 </head>
 <body>
-    <div>
-        <div onclick="window.location.href='/'" style="cursor: pointer">
-            <h1 style="color: #007bff;text-align: center">2025 버킷리스트</h1>
-        </div>
-        <fieldset class="login-container">
-            <h2>회원가입</h2>
-            <form th:action="@{/signup}" th:object="${user}" method="post" onsubmit="return validatePasswords();">
-                <label for="username">이름(닉네임)</label>
-                <input type="text" id="username" name="username" required>
-
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required>
-
-                <label for="password2">비밀번호 확인</label>
-                <input type="password" id="password2" name="password2" required>
-
-                <button type="submit">회원가입</button>
-                <a href="/login" style="margin-top:20px;display:inline-block">로그인</a>
-            </form>
-        </fieldset>
-    </div>
-    <script>
-        function validatePasswords() {
-            const password = document.getElementById('password').value;
-            const password2 = document.getElementById('password2').value;
-
-            if (password !== password2) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return false; // 폼 제출을 막음
-            }
-            return true; // 폼 제출을 허용
-        }
-    </script>
-
+<fieldset>
+    <form th:action="@{/signup_process}" method="post">
+        <input type="text" name="nickname" id="nickname" placeholder="닉네임" required/>
+        <br/>
+        <input type="email" name="email" id="email" placeholder="이메일" required/>
+        <br/>
+        <input type="password" name="password" id="password" placeholder="비밀번호" required/>
+        <br/>
+        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="비밀번호 확인" required/>
+        <br/>
+        <input type="submit" value="회원가입"/>
+    </form>
+</fieldset>
 </body>
 </html>

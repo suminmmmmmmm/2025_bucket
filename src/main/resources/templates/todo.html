@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO 목록</title>
+</head>
+<body>
+<h1>내 TODO 목록</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>내용</th>
+        <th>완료 여부</th>
+        <th>목표 날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="todo : ${todos}">
+        <tr>
+            <td th:text="${todo.id}"></td>
+            <td th:text="${todo.content}"></td>
+            <td th:text="${todo.check_complete ? '완료' : '미완료'}"></td>
+            <td th:text="${todo.goal_day}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>
