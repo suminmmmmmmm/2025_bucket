@@ -1,31 +1,32 @@
 package com.example._2025_bucket.dto;
 
+
 import com.example._2025_bucket.entity.User;
-import lombok.Builder;
+
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-
-@Setter
+/**
+ * - User 엔티티와 데이터 교환
+ *  - 디비용도, 통신용도(로그인, 회원가입등 전달데이터 받는구조)
+ */
 @Getter
-@Builder
+@Setter
 @ToString
 public class UserDto {
-    private long id;
     private String email;
     private String password;
+    private String confirmPassword;
     private String nickname;
-    private LocalDateTime create_at;
 
-    public User toEntity(){
-        return User.builder()
-                .create_at(this.create_at)
-                .email(this.email)
-                .password(this.password)
-                .nickname(this.nickname)
-                .id(this.id)
-                .build();
+    public User toEntity() {
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setNickname(nickname);
+        return user;
+
     }
 }

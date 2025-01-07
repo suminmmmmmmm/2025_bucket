@@ -27,4 +27,7 @@ public class ReviewDto {
                 .todo(this.todo)
                 .build();
     }
+
+    public void setModified_at(LocalDateTime now) {
+    }
 }
