@@ -28,6 +28,7 @@ public class TodoService {
                     .modified_at(todo.getModified_at())
                     .goal_day(todo.getGoal_day())
                     .image_path(todo.getImage_path())
+                    .category(todo.getCategory())
                     .build();
         }
         else throw new NoSuchElementException("해당 Todo없음");

@@ -13,7 +13,7 @@
 <div th:text="|댓글수: ${todoDto.getImage_path()}|"></div>
 
 <div>
-    <img th:src="@{|/uploads/${todoDto.getImage_path()}|}" alt="NOIMG"/>
+    <img th:src="@{|/images/${todoDto.getImage_path()}|}" alt="NOIMG"/>
 </div>
 <a th:href="|/list/modify/${todoDto.getId()}|">수정</a>
 

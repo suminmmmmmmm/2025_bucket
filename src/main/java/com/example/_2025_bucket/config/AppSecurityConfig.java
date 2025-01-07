@@ -1,5 +1,6 @@
 package com.example._2025_bucket.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,12 +22,10 @@ public class AppSecurityConfig {
         return httpSecurity
                 .authorizeRequests()
                 .requestMatchers("/", "/list", "list/detail/**", "/detail/**", "/error",
-                                    "/login", "/signin").permitAll()
+                                    "/login").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/list")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/list")
@@ -41,7 +40,7 @@ public class AppSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer(){
         return web -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers("/static/**");
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean

@@ -21,9 +21,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
+
     private LocalDateTime create_at;
 
     @Builder

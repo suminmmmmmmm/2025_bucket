@@ -27,7 +27,7 @@ public class DetailController {
     //private UserDetailsService userDetailsService;
 
     // 썸네일 저장 경로
-    private static final String URL = "src/main/resources/static/uploads/";
+    private static final String URL = "src/main/resources/static/images/";
 
     //상세보기
     @GetMapping("/detail/{id}")

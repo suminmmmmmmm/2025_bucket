@@ -28,13 +28,17 @@ public class Todo {
     @JoinColumn(name = "userId")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private Category category;
+
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
     @Builder
     public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
                 LocalDateTime create_at, LocalDateTime modified_at,
-                User user,  List<Review> reviews, String image_path) {
+                User user,  List<Review> reviews, String image_path, Category category) {
         this.id = id;
         this.content = content;
         this.goal_day = goal_day;
@@ -44,5 +48,6 @@ public class Todo {
         this.user = user;
         this.reviews = reviews;
         this.image_path = image_path;
+        this.category = category;
     }
 }
