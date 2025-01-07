@@ -1,5 +1,6 @@
 package com.example._2025_bucket.entity;
 
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "UserTbl")
@@ -17,24 +19,28 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "nickname", nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String nickname;
 
     private LocalDateTime create_at;
 
+    // 사용자와 TODO의 1:N 관계 설정
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Todo> todos;
+
     @Builder
-    public User(long id, String email, String password, String nickname,
-                LocalDateTime create_at){
+    public User(long id, String email, String password, String nickname, LocalDateTime create_at) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -43,19 +49,13 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public String getUsername() {
+        return email;
     }
 
-    // UserDetails 메서드 구현
     @Override
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override
@@ -76,5 +76,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }

@@ -1,13 +1,9 @@
 package com.example._2025_bucket.dto;
 
-import com.example._2025_bucket.entity.Category;
 import com.example._2025_bucket.entity.Review;
 import com.example._2025_bucket.entity.Todo;
 import com.example._2025_bucket.entity.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +13,8 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class TodoDto {
     private long id;
     private boolean check_complete;
@@ -26,8 +24,7 @@ public class TodoDto {
     private LocalDateTime modified_at;
     private User user;
     private List<Review> reviews;
-    private String image_path;
-    private Category category;
+
 
     public Todo toEntity(){
         return Todo.builder()
@@ -39,8 +36,10 @@ public class TodoDto {
                 .modified_at(this.modified_at)
                 .user(this.user)
                 .reviews(this.reviews)
-                .image_path(this.image_path)
-                .category(this.category)
+
                 .build();
     }
+
+
+
 }
