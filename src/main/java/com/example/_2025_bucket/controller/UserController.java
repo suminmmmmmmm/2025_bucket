@@ -59,5 +59,4 @@ public class UserController {
         // 2. 최종 로그인으로 이동
         return "redirect:/login";
     }
-
 }

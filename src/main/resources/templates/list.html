@@ -30,6 +30,8 @@
 <body>
 <h1> List</h1>
 
+<a th:href="@{/user/${}}">내정보</a>
+
 <div th:each="todoDto : ${todos}">
     <!-- 이미지 -->
     <div>

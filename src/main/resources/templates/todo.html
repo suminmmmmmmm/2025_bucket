@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>내 TODO 목록</h1>
+<a th:href="@{/list}">목록으로 돌아가기</a>
 <table border="1">
     <thead>
     <tr>
@@ -12,6 +13,7 @@
         <th>내용</th>
         <th>완료 여부</th>
         <th>목표 날짜</th>
+        <th>수정하기</th>
     </tr>
     </thead>
     <tbody>
@@ -21,9 +23,11 @@
             <td th:text="${todo.content}"></td>
             <td th:text="${todo.check_complete ? '완료' : '미완료'}"></td>
             <td th:text="${todo.goal_day}"></td>
+            <td><a th:href="|/list/modify/${todo.id}|">수정하기</a></td>
         </tr>
     </th:block>
     </tbody>
 </table>
+<a th:href="@{/create}">추가하러 가기</a>
 </body>
 </html>

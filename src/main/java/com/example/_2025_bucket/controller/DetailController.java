@@ -1,12 +1,15 @@
 package com.example._2025_bucket.controller;
 
 import com.example._2025_bucket.dto.CategoryDto;
+import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.CategoryService;
 import com.example._2025_bucket.service.TodoService;
+import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -27,8 +31,8 @@ public class DetailController {
     private TodoService todoService;
     @Autowired
     private CategoryService categoryService;
-    //@Autowired
-    //private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
     // 썸네일 저장 경로
     private static final String URL = "C:/uploads/images/";
@@ -120,13 +124,19 @@ public class DetailController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") long id) {
+    public String delete(@PathVariable("id") long id,
+                         Authentication authentication) {
         try{
             TodoDto todoDto = this.todoService.getTodo(id);
-            this.todoService.remove(todoDto);
+            long uid = todoDto.getUser().getId();
+            if (Objects.equals(authentication.getName(), todoDto.getUser().getEmail())) {
+                this.todoService.remove(todoDto);
+                return "redirect:/list";
+            }
+
         } catch (Exception e) {
             // 해당 글 없을 때 로직
         }
-        return "redirect:/list";
+        return "redirect:/list/detail/" + id;
     }
 }

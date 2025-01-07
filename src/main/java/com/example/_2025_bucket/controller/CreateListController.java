@@ -6,8 +6,10 @@ import com.example._2025_bucket.entity.Todo;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.service.CategoryService;
 import com.example._2025_bucket.service.TodoService;
+import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,8 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// 게시글 작성, 수정
+
 @Controller
 public class CreateListController {
 
@@ -31,6 +35,8 @@ public class CreateListController {
     private TodoService todoService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private UserService userService;
 
     private static final String URL = "C:/uploads/images/";
 
@@ -46,7 +52,8 @@ public class CreateListController {
     @PostMapping("/create")
     public String handleCreateForm(
             @Valid TodoForm todoForm,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Authentication authentication) {
         if(bindingResult.hasErrors()) {
             return "create-form";
         }
@@ -68,6 +75,8 @@ public class CreateListController {
                 Path filePath = path.resolve(fileName);
                 bucketImage.transferTo(filePath.toFile());
 
+                System.out.printf(authentication.getName());
+                System.out.printf(String.valueOf(userService.getUserByEmail(authentication.getName()).getId()));
                 // 저장된 경로를 DTO에 설정
                 TodoDto todoDto = TodoDto.builder()
                         .create_at(LocalDateTime.now())
@@ -76,6 +85,7 @@ public class CreateListController {
                         .content(todoForm.getContent())
                         .goal_day(todoForm.getGoal_day())
                         .category(categoryService.getCategoryById(todoForm.getCategory()).toEntity())
+                        .user(userService.getUserByEmail(authentication.getName()).toEntity())
                         .build();
                 System.out.println(todoDto.toString());
                 this.todoService.save(todoDto);

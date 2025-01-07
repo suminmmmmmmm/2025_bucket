@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * 일반적인 User 테이블과 연관된 비즈니스 로직 처리
@@ -42,5 +43,19 @@ public class UserService {
                 .build());
 
 
+    }
+
+    // 유저 정보(ID, email)
+    public UserDto getUserByEmail(String email) {
+        Optional<User> ou = this.userRepository.findByEmail(email);
+        if(ou.isPresent()) {
+            return UserDto.builder()
+                    .id(ou.get().getId())
+                    .email(ou.get().getEmail())
+                    .nickname(ou.get().getNickname())
+                    .password(ou.get().getPassword())
+                    .build();
+        }
+        else throw new IllegalArgumentException("없는 이메일 입니다.");
     }
 }

@@ -4,9 +4,7 @@ package com.example._2025_bucket.dto;
 import com.example._2025_bucket.entity.User;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * - User 엔티티와 데이터 교환
@@ -15,7 +13,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserDto {
+    private long id;
     private String email;
     private String password;
     private String confirmPassword;
@@ -23,6 +25,7 @@ public class UserDto {
 
     public User toEntity() {
         User user = new User();
+        user.setId(id);
         user.setEmail(email);
         user.setPassword(password);
         user.setNickname(nickname);
