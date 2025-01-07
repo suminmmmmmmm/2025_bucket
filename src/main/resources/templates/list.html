@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todo List</title>
+</head>
+<body>
+<h1>Todo List</h1>
+<div th:each="todo : ${todos}">
+    <!-- 이미지 -->
+    <div>
+        <img th:if="${todo.imagePath != null}"
+             th:src="@{'http://localhost:8080\uploads' + ${todo.imagePath}}"
+             alt="Todo Image" width="200" height="200">
+    </div>
+    <!-- 제목 -->
+    <p th:text="${todo.content}"></p>
+</div>
+</body>
+</html>
