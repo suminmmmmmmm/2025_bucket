@@ -85,23 +85,4 @@ public class CreateListController {
         }
         return "redirect:/list"; // 저장 후 리스트 페이지로 리다이렉트
     }
-
-
-//    @Controller
-//    public class TodoListController {
-//
-//        private final TodoService todoService;
-//
-//        public TodoListController(TodoService todoService) {
-//            this.todoService = todoService;
-//        }
-//
-//        @GetMapping("/list")
-//        public String showTodoList(Model model) {
-//            List<TodoDto> todos = todoService.getTodoList();
-//            model.addAttribute("todos", todos); // 뷰로 전달할 데이터
-//            return "list"; // list.html 렌더링
-//        }
-//    }
-
 }
