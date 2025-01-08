@@ -17,30 +17,63 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12" style="max-width: 700px;margin: 0 auto">
+                        <!-- 카테고리 선택 -->
+                        <!--
+                        <form method="get" action="/list">
+                            <select name="categoryId" onchange="this.form.submit()">
+                                <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${selectedCategory == category.id}">
+                                </option>
+                            </select>
+                        </form>
+                        -->
+
                         <div class="card">
                             <div class="card-header">
-                                <ul class="nav nav-pills nav-justified">
-                                    <li class="nav-item">
-                                        <form method="get" action="/list">
-                                            <button type="submit" name="categoryId" value="" class="nav-link"
-                                                    th:classappend="${selectedCategory == null} ? 'active' : ''">
-                                                All Categories
-                                            </button>
-                                        </form>
-                                    </li>
-                                    <div th:each="category : ${categories}">
+
+                                <form method="get" action="/list"  id="categoryForm">
+                                    <select style="display: none" name="categoryId" id="categorySelect" onchange="this.form.submit()" >
+                                        <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"
+                                                th:selected="${selectedCategory == category.id}">
+                                        </option>
+                                    </select>
+                                    <ul class="nav nav-pills nav-justified">
                                         <li class="nav-item">
-                                            <form method="get" action="/list">
-                                                <button type="submit" name="categoryId"
-                                                        th:value="${category.id}"
-                                                        th:text="${category.name}"
-                                                        class="nav-link"
-                                                        th:classappend="${selectedCategory == category.id} ? 'active' : ''">
-                                                </button>
-                                            </form>
+                                            <a href="/list" class="nav-link" th:text="전체"
+                                               th:classappend="${selectedCategory == null} ? 'active'"></a>
                                         </li>
-                                    </div>
-                                </ul>
+                                        <li class="nav-item" th:each="category : ${categories}">
+                                            <button th:value="${category.id}" type="button" class="nav-link"
+                                                    th:classappend="${selectedCategory == category.id} ? 'active'"
+                                                    th:onclick="'selectCategory(' + ${category.id} + ')'" th:text="${category.name}"></button>
+                                        </li>
+                                    </ul>
+                                </form>
+                                <script>
+                                    function selectCategory(categoryId) {
+                                        var selectElement = document.getElementById('categorySelect');
+
+                                        // 모든 option을 초기화하고 선택한 categoryId에 해당하는 option을 선택
+                                        for (var i = 0; i < selectElement.options.length; i++) {
+                                            if (selectElement.options[i].value == categoryId) {
+                                                selectElement.options[i].selected = true; // 해당 옵션을 선택
+                                            } else {
+                                                selectElement.options[i].selected = false; // 다른 옵션 선택 해제
+                                            }
+                                        }
+
+                                        // 폼 제출
+                                        selectElement.form.submit();
+                                    }
+                                </script>
+
+
                             </div>
                         </div>
                     </div>
@@ -53,7 +86,6 @@
                         <img th:if="${todoDto.getImage_path() != null}"
                              th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
                              alt="Todo Image" class="img-fluid">
-
 
                       
                         <!--                    <div class="ribbon-wrapper ribbon-lg">-->
