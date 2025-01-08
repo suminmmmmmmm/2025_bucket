@@ -9,6 +9,8 @@ a{
     padding : 0 0 20px 0 ;
     margin-bottom: 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: white;
+    width: 100%;
 }
 .list-box-wrap{
     width: 100%;
@@ -46,6 +48,9 @@ a{
         text-align: right;
         display: block;
     }
+}
+.list-in{
+    max-width: 100%;
 }
 .list-content{
     color: #222;
