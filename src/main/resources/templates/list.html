@@ -15,7 +15,6 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col-md-12" style="max-width: 700px;margin: 0 auto">
                         <!-- 카테고리 선택 -->
@@ -34,6 +33,7 @@
 
                         <div class="card">
                             <div class="card-header">
+
                                 <form method="get" action="/list"  id="categoryForm">
                                     <select style="display: none" name="categoryId" id="categorySelect" onchange="this.form.submit()" >
                                         <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
@@ -73,11 +73,11 @@
                                     }
                                 </script>
 
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap">
                 <!-- 예시1 -->
@@ -86,6 +86,7 @@
                         <img th:if="${todoDto.getImage_path() != null}"
                              th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
                              alt="Todo Image" class="img-fluid">
+
                       
                         <!--                    <div class="ribbon-wrapper ribbon-lg">-->
                         <!--                        <div class="ribbon bg-info">-->
