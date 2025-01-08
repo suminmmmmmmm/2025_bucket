@@ -30,6 +30,18 @@
 <body>
 <h1> List</h1>
 
+<!-- 카테고리 선택 -->
+<form method="get" action="/list">
+    <select name="categoryId" onchange="this.form.submit()">
+        <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.id}"
+                th:text="${category.name}"
+                th:selected="${selectedCategory == category.id}">
+        </option>
+    </select>
+</form>
+
 <a th:href="@{/user/${}}">내정보</a>
 
 <div th:each="todoDto : ${todos}">

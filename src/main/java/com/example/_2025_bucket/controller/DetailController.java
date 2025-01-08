@@ -39,9 +39,18 @@ public class DetailController {
 
 
     @GetMapping("")
-    public String showTodoList(Model model) {
-        List<TodoDto> todos = this.todoService.getAllTodos();
-        model.addAttribute("todos", todos); // 뷰로 전달할 데이터
+    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
+        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
+        model.addAttribute("categories", categories);
+
+        List<TodoDto> todos;
+        if (categoryId != null) {
+            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
+            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
+        } else {
+            todos = todoService.getAllTodos(); // 모든 TODO 조회
+        }
+        model.addAttribute("todos", todos);
         return "list"; // list.html 렌더링
     }
 
