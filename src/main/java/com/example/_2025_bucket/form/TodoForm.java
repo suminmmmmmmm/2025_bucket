@@ -20,4 +20,8 @@ public class TodoForm {
     @NotNull(message = "카테고리를 선택하세요")
     private int category;
     private MultipartFile file;
+
+    private boolean check_complete;
+
+
 }

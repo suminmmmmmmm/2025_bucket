@@ -80,7 +80,7 @@ public class CreateListController {
                 // 저장된 경로를 DTO에 설정
                 TodoDto todoDto = TodoDto.builder()
                         .create_at(LocalDateTime.now())
-                        .check_complete(false)
+                        .check_complete(todoForm.isCheck_complete()) // 체크박스 값 처리
                         .image_path("/images/" + fileName)
                         .content(todoForm.getContent())
                         .goal_day(todoForm.getGoal_day())
