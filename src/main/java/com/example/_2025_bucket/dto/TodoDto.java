@@ -44,5 +44,21 @@ public class TodoDto {
     }
 
 
+    // 추가된 fromEntity 메서드
+    public static TodoDto fromEntity(Todo todo) {
+        TodoDto dto = new TodoDto();
+        dto.setId(todo.getId());
+        dto.setCheck_complete(todo.isCheck_complete());
+        dto.setContent(todo.getContent());
+        dto.setGoal_day(todo.getGoal_day());
+        dto.setCreate_at(todo.getCreate_at());
+        dto.setModified_at(todo.getModified_at());
+        dto.setUser(todo.getUser());
+        dto.setReviews(todo.getReviews());
+        dto.setImage_path(todo.getImage_path());
+        dto.setCategory(todo.getCategory());
+        return dto;
+    }
+
 
 }

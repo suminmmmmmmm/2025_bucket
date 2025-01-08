@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -71,5 +72,12 @@ public class TodoService {
 
     public List<Todo> getTodosByUserId(long id) {
         return this.todoRepository.findByUserId(id);
+    }
+
+    public List<TodoDto> getTodosByCategory(int categoryId) {
+        List<Todo> todos = todoRepository.findByCategoryId(categoryId); // 카테고리에 해당하는 TODO 조회
+        return todos.stream()
+                .map(TodoDto::fromEntity) // Entity → DTO 변환
+                .collect(Collectors.toList());
     }
 }
