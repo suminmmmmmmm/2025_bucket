@@ -66,9 +66,18 @@ public class DetailController {
     public String modify(
             TodoForm todoForm,
             @PathVariable("id") long id,
-            Model model) {
+            Model model,
+            Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
+            System.out.println(authentication.getName());
+            System.out.println(todoDto.getUser().getEmail());
+            if(!Objects.equals(authentication.getName(), todoDto.getUser().getEmail())){
+                System.out.println("!!!!!!!!!!!!다른 사용자");
+                return "redirect:/list/detail/" + id;
+
+            }
+
             todoForm.setContent(todoDto.getContent());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
