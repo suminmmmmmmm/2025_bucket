@@ -73,37 +73,32 @@
                                     }
                                 </script>
 
-
                             </div>
                         </div>
                     </div>
                 </div>
+
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap">
-                <!-- 예시1 -->
                 <div class="list-in" th:each="todoDto : ${todos}">
                     <a th:href="|/list/detail/${todoDto.getId()}|" class="position-relative m-3 list-box">
                         <img th:if="${todoDto.getImage_path() != null}"
                              th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
                              alt="Todo Image" class="img-fluid">
 
-                      
-                        <!--                    <div class="ribbon-wrapper ribbon-lg">-->
-                        <!--                        <div class="ribbon bg-info">-->
-                        <!--                            " 완료 "-->
-                        <!--                        </div>-->
-                        <!--                    </div>-->
+                        <div class="ribbon-wrapper ribbon-lg" th:style="${todoDto.check_complete}? 'display:inline-block':'display:none'">
+                            <div class="ribbon bg-info">
+                                완료
+                            </div>
+                        </div>
                         <div class="p-3 list-content">
                             <!-- 제목 -->
-                            <h5 th:text="${todoDto.getContent()}">
-                                책정리
-                            </h5>
+                            <h5 th:text="${todoDto.getContent()}"></h5>
                             <span th:text="${todoDto.goal_day}"></span>
                         </div>
                     </a>
                 </div>
             </div>
-
         </section>
 
     </div>

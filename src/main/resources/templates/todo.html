@@ -18,6 +18,7 @@
                 <h2 class="m-5" style="text-align: center;">나의 버킷리스트</h2>
                 <div class="row">
                     <div class="col-md-12" style="max-width: 700px;margin: 0 auto">
+                        <!--
                         <div class="card">
                             <div class="card-header">
                                 <ul class="nav nav-pills nav-justified">
@@ -27,12 +28,10 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#" aria-current="page">행복</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" aria-current="page">커리어/꿈</a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>
@@ -40,14 +39,13 @@
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap" >
                 <div class="list-in" th:each="todo : ${todos}">
-                    <!-- 예시1 -->
-                    <div onclick="window.location.href = '#'" class="position-relative m-3 list-box">
+                    <div class="position-relative m-3 list-box">
                         <img th:src="@{'http://localhost:8080\uploads' + ${todo.image_path}}"
                              alt="Todo Image" class="img-fluid">
 
                         <div class="ribbon-wrapper ribbon-lg" th:style="${todo.check_complete ? 'display:inline-block' : 'display:none'}">
                             <div class="ribbon bg-info">
-                                " 완료 "
+                                완료
                             </div>
                         </div>
 

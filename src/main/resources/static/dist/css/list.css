@@ -71,7 +71,10 @@ a{
     width: 180px; /* 예시 값, 실제로 $ribbon-wrapper-size에 해당하는 값을 사용해야 합니다 */
     z-index: 10;
 }
-
+.ribbon{
+    color: white;
+    font-weight: bold;
+}
 .ribbon-wrapper.ribbon-lg {
     height: 120px; /* 예시 값, 실제로 $ribbon-lg-wrapper-size에 해당하는 값을 사용해야 합니다 */
     width: 120px; /* 예시 값, 실제로 $ribbon-lg-wrapper-size에 해당하는 값을 사용해야 합니다 */
