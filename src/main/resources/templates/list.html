@@ -1,34 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Todo List</title>
-    <style>
-        /* + 버튼 스타일 */
-        .floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #28a745; /* 녹색 버튼 */
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            text-align: center;
-            line-height: 60px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-        }
+<html layout:decorate="~{lib/layout}" xmlns="http://www.w3.org/1999/html">
+<div class="wrapper" layout:fragment="content">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header list_title" style="background: white">
+            <div th:replace="lib/navibar.html :: frag_navibar"></div>
+            <div class="container-fluid">
+                <div class="row" style="justify-content: center">
+                    <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
+                        <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="content">
+            <div class="container-fluid">
 
-        .floating-button:hover {
-            background-color: #218838; /* 버튼 호버 시 색상 */
-        }
-    </style>
-</head>
-<body>
-<h1> List</h1>
+                <div class="row">
+                    <div class="col-md-12" style="max-width: 700px;margin: 0 auto">
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#" aria-current="page">여행</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" aria-current="page">행복</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" aria-current="page">커리어/꿈</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 버킷리스트 목록 grid -->
+            <div class="list-box-wrap">
+                <!-- 예시1 -->
+                <div class="list-in" th:each="todoDto : ${todos}">
+                    <a th:href="|/list/detail/${todoDto.getId()}|" class="position-relative m-3 list-box">
+                        <img th:if="${todoDto.getImage_path() != null}"
+                             th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
+                             alt="Todo Image" class="img-fluid">
 
 <!-- 카테고리 선택 -->
 <form method="get" action="/list">
@@ -41,19 +56,25 @@
         </option>
     </select>
 </form>
+                      
+                        <!--                    <div class="ribbon-wrapper ribbon-lg">-->
+                        <!--                        <div class="ribbon bg-info">-->
+                        <!--                            " 완료 "-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                        <div class="p-3 list-content">
+                            <!-- 제목 -->
+                            <h5 th:text="${todoDto.getContent()}">
+                                책정리
+                            </h5>
+                            <span th:text="${todoDto.goal_day}"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-<a th:href="@{/user/${}}">내정보</a>
+        </section>
 
-<div th:each="todoDto : ${todos}">
-    <!-- 이미지 -->
-    <div>
-        <img th:if="${todoDto.getImage_path() != null}"
-             th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
-             alt="Todo Image" width="200" height="200">
     </div>
-    <!-- 제목 -->
-    <a th:href="|/list/detail/${todoDto.getId()}|"><span th:text="${todoDto.getContent()}"></span></a>
 </div>
-<a th:href="@{/create}" class="floating-button">+</a>
-</body>
 </html>

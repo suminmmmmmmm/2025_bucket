@@ -2,11 +2,15 @@ body{
     min-height: 100vh;
     background-color: rgba(240, 242, 245);
 }
-
+a{
+    text-decoration: none;
+}
 .list_title{
     padding : 0 0 20px 0 ;
     margin-bottom: 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: white;
+    width: 100%;
 }
 .list-box-wrap{
     width: 100%;
@@ -45,6 +49,17 @@ body{
         display: block;
     }
 }
+.list-in{
+    max-width: 100%;
+}
+.list-content{
+    color: #222;
+}
+/* nav-pills 색상 변경 */
+.nav-link.active{
+    background-color: #222 !important;
+}
+
 /*Misc: Miscellaneous*/
 /*Ribbon*/
 .ribbon-wrapper {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Todo List</title>
+    <style>
+        /* + 버튼 스타일 */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #28a745; /* 녹색 버튼 */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+
+        .floating-button:hover {
+            background-color: #218838; /* 버튼 호버 시 색상 */
+        }
+    </style>
+</head>
+<body>
+<h1> List</h1>
+
+<a th:href="@{/user/${}}">내정보</a>
+
+<div th:each="todoDto : ${todos}">
+    <!-- 이미지 -->
+    <div>
+        <img th:if="${todoDto.getImage_path() != null}"
+             th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
+             alt="Todo Image" width="200" height="200">
+    </div>
+    <!-- 제목 -->
+    <a th:href="|/list/detail/${todoDto.getId()}|"><span th:text="${todoDto.getContent()}"></span></a>
+</div>
+<a th:href="@{/create}" class="floating-button">+</a>
+</body>
+</html>

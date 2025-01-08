@@ -5,17 +5,21 @@
 <!--      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>-->
 <!--    </li>-->
     <li class="nav-item d-sm-inline-block">
-      <a href="/" class="nav-link">내 페이지</a>
+      <a th:href="@{/user/${}}" class="nav-link">내 페이지</a>
     </li>
-    <li class="nav-item d-sm-inline-block">
-      <a href="/auth/logout" class="nav-link">로그아웃</a>
+    <li class="nav-item d-sm-inline-block"  sec:authorize="isAuthenticated()">
+      <a href="/logout" class="nav-link">로그아웃</a>
     </li>
+      <li class="nav-item d-sm-inline-block" sec:authorize="isAnonymous()">
+          <!-- 인증되지 않은 유저에게 노출된다 -->
+          <a href="/login" class="nav-link">로그인</a>
+      </li>
   </ul>
 
-  <div class="nav-item" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#007bff;color:white;border-radius: 50%;
+  <div class="nav-item" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#222;color:white;border-radius: 50%;
                                display: flex;justify-content: center;align-items:center;font-size:30px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                                 z-index: 100;">
-    <a href="#" class="nav-link">+</a>
+    <a th:href="@{/create}"  class="nav-link">+</a>
   </div>
 </nav>
 <!-- /.navbar -->
