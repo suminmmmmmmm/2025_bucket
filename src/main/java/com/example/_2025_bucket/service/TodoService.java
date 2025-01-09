@@ -82,7 +82,18 @@ public class TodoService {
     public List<TodoDto> getTodosByCategory(int categoryId) {
         List<Todo> todos = todoRepository.findByCategoryId(categoryId); // 카테고리에 해당하는 TODO 조회
         return todos.stream()
-                .map(TodoDto::fromEntity) // Entity → DTO 변환
+                .map(todo -> TodoDto.builder()
+                        .id(todo.getId())
+                        .check_complete(todo.isCheck_complete())
+                        .content(todo.getContent())
+                        .goal_day(todo.getGoal_day())
+                        .create_at(todo.getCreate_at())
+                        .modified_at(todo.getModified_at())
+                        .user(todo.getUser())
+                        .reviews(todo.getReviews())
+                        .image_path(todo.getImage_path())
+                        .category(todo.getCategory())
+                        .build())
                 .collect(Collectors.toList());
     }
 }
