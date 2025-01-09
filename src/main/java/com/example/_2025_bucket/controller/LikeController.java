@@ -43,7 +43,7 @@ public class LikeController {
                 this.likeService.remove(likeDto.toEntity());
             }
         }catch (Exception e){
-            
+
         }
         return "redirect:/list/detail/" + id;
     }
