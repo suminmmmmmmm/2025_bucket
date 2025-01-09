@@ -13,12 +13,14 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final UserService userService;
 
-    public void create(TodoDto todoDto, String content) {
+    public void create(TodoDto todoDto, String content, String user_email) {
         ReviewDto reviewDto = ReviewDto.builder()
                 .content(content)
                 .create_at(LocalDateTime.now())
                 .todo(todoDto.toEntity())
+                .user(userService.getUserByEmail(user_email).toEntity())
                 .build();
         reviewRepository.save(reviewDto.toEntity());
     }
@@ -29,6 +31,7 @@ public class ReviewService {
                     .todo(review.getTodo())
                     .content(review.getContent())
                     .create_at(review.getCreate_at())
+                    .user(review.getUser())
                     .id(id)
                     .build();
     }
