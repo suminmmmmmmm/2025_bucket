@@ -1,0 +1,157 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+}
+
+.line1 {
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: -15px;
+}
+
+.main1_title {
+    font-weight: bold;
+    font-size: 7.5vh;
+    font-family: "Adobe Caslon Pro";
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 5vh;
+    margin-bottom: 20px;
+}
+
+.category, .date, .complete, .comment {
+    font-size: 2.5vh;
+    margin-bottom: 15px;
+}
+
+.containers {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.text {
+    width: 50%;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 2px #444;
+    border-radius: 4px;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.comment_list {
+    width: 80%;
+    min-width: 10%;/* 자식 요소가 부모 크기를 따라감 */
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#comment_text {
+    display: flex;            /* Flexbox 사용 */
+    flex-direction: column;   /* 세로 정렬 */
+    gap: 10px;                /* 자식 요소 간 간격 추가 */
+    align-items: stretch;     /* 자식 요소가 부모의 너비를 채우도록 설정 */
+    width: 100%;              /* 부모 요소의 너비를 따름 */
+    margin: 10px 0;           /* 위아래 간격 추가 */
+}
+
+#comment_text input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;              /* 입력 필드가 가로 전체를 차지 */
+    box-sizing: border-box;   /* 패딩과 보더 포함 */
+}
+
+#comment_text input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #323232;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end;     /* 버튼이 오른쪽으로 정렬 */
+}
+
+
+.image {
+    width: 400px;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+}
+
+
+
+.btn {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 35px;
+    --bs-btn-box-shadow: 0;
+    --bs-btn-border-color: none;
+}
+
+#btn2, #btn3 {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #323232;
+    color: white;
+    border-radius: 4px;
+}
+
+#td1, #td2{
+    text-align: center;
+}
+
+.comment_box {
+    width: 100%;
+    margin: 0 auto; /* 가운데 정렬 */
+}
