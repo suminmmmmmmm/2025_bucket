@@ -88,6 +88,8 @@ public class DetailController {
             }
 
             todoForm.setContent(todoDto.getContent());
+            todoForm.setCheck_complete(todoDto.isCheck_complete());
+            todoForm.setGoal_day(todoDto.getGoal_day());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
         }
@@ -126,6 +128,7 @@ public class DetailController {
             todoDto.setContent(todoForm.getContent());
             todoDto.setGoal_day(todoForm.getGoal_day());
             todoDto.setCategory(this.categoryService.getCategoryById(todoForm.getCategory()).toEntity());
+            todoDto.setCheck_complete(todoForm.isCheck_complete());
 
             todoDto.setModified_at(LocalDateTime.now());
 
