@@ -92,9 +92,8 @@
                             </div>
                         </div>
                         <div class="p-3 list-content">
-                            <!-- 제목 -->
-                            <h5 th:text="${todoDto.getContent()}"></h5>
-                            <span th:text="${todoDto.goal_day}"></span>
+                            <h5 th:text="${todoDto.content}"></h5>
+                            <span th:text="'작성자: ' + ${todoDto.nickname}"></span>
                         </div>
                     </a>
                 </div>
