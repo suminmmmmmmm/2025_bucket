@@ -5,6 +5,7 @@ import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.CategoryService;
+import com.example._2025_bucket.service.LikeService;
 import com.example._2025_bucket.service.TodoService;
 import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
@@ -33,6 +34,8 @@ public class DetailController {
     private CategoryService categoryService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LikeService likeService;
 
     // 썸네일 저장 경로
     private static final String URL = "C:/uploads/images/";
@@ -56,13 +59,29 @@ public class DetailController {
 
     //상세보기
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") long id, Model model) {
+    public String detail(@PathVariable("id") long id,
+                         Model model,
+                         Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
+            long liked = this.likeService.countLikeByTodoId(id);
 
-            System.out.println(todoDto.toString());
+            // 사용자의 좋아요 여부 전달
+            if (this.likeService.getLikeByTodoAndUser(
+                    this.todoService.getTodo(id).toEntity(),
+                    this.userService.getUserByEmail(authentication.getName()).toEntity()
+            ) == null) {
+                model.addAttribute("isLiked", false);
+            }
+            else{
+                model.addAttribute("isLiked", true);
+            }
 
-            model.addAttribute("todoDto", todoDto); // 아이디값 화면에 전달
+            // todo정보 전달
+            model.addAttribute("todoDto", todoDto);
+            // 총 좋아요 수 전달
+            model.addAttribute("liked", liked);
+
         }
         catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -79,8 +98,7 @@ public class DetailController {
             Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
-            System.out.println(authentication.getName());
-            System.out.println(todoDto.getUser().getEmail());
+            // 작성자가 수정하려 하는지 검사
             if(!Objects.equals(authentication.getName(), todoDto.getUser().getEmail())){
                 System.out.println("!!!!!!!!!!!!다른 사용자");
                 return "redirect:/list/detail/" + id;

@@ -39,6 +39,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos;
 
+    @OneToMany
+    private List<Likes> likes;
+
     @Builder
     public User(long id, String email, String password, String nickname, LocalDateTime create_at) {
         this.id = id;

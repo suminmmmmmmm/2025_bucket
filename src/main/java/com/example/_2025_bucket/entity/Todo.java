@@ -43,6 +43,9 @@ public class Todo {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
+    @OneToMany
+    private List<Likes> likes;
+
     @Builder
     public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
                 LocalDateTime create_at, LocalDateTime modified_at,
