@@ -42,7 +42,6 @@ public class DetailController {
     public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
         List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
         model.addAttribute("categories", categories);
-        model.addAttribute("currentPage", "list");
 
         List<TodoDto> todos;
         if (categoryId != null) {
