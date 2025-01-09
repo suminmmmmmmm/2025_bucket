@@ -39,7 +39,7 @@
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap" >
                 <div class="list-in" th:each="todo : ${todos}">
-                    <div class="position-relative m-3 list-box">
+                    <div th:onclick="'window.location.href=\'/list/detail/' + ${todo.id} + '\''" class="position-relative m-3 list-box">
                         <img th:src="@{'http://localhost:8080\uploads' + ${todo.image_path}}"
                              alt="Todo Image" class="img-fluid">
 
@@ -49,15 +49,15 @@
                             </div>
                         </div>
 
-                        <div class="p-3">
+                        <div class="p-3 list-content">
                             <h5 th:text="${todo.content}"></h5>
                             <!--
                             <p>
                                 좋아하는 책으로 가득 채운 책장을 정리하는 대청소날
                             </p>
                             -->
-                            <span th:text="${todo.goal_day}"></span>
-                            <td><a th:href="|/list/modify/${todo.id}|">수정하기</a></td>
+                            <span th:text="'D-day : ' + ${todo.goal_day}"></span>
+                            <a th:href="|/list/modify/${todo.id}|">수정하기</a>
                         </div>
                     </div>
                 </div>
