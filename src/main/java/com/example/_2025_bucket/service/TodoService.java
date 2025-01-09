@@ -38,25 +38,30 @@ public class TodoService {
     }
 
     public List<TodoDto> getAllTodos() {
-        List<Todo> lts = this.todoRepository.findAll();
-        List<TodoDto> ldts = new ArrayList<>();
+        List<Todo> todos = this.todoRepository.findAll(); // Todo 엔티티 리스트 조회
+        List<TodoDto> todoDtos = new ArrayList<>();
 
-        for (Todo td : lts) {
-            ldts.add(TodoDto.builder()
-                    .image_path(td.getImage_path())
-                    .user(td.getUser())
-                    .id(td.getId())
-                    .content(td.getContent())
-                    .reviews(td.getReviews())
-                    .check_complete(td.isCheck_complete())
-                    .create_at(td.getCreate_at())
-                    .modified_at(td.getModified_at())
-                    .goal_day(td.getGoal_day())
-                    .category(td.getCategory())
+        for (Todo todo : todos) {
+            // Todo의 User 필드에서 nickname 추출
+            String nickname = (todo.getUser() != null) ? todo.getUser().getNickname() : "Unknown";
+
+            todoDtos.add(TodoDto.builder()
+                    .image_path(todo.getImage_path())
+                    .user(todo.getUser()) // User 객체 포함
+                    .id(todo.getId())
+                    .content(todo.getContent())
+                    .reviews(todo.getReviews())
+                    .check_complete(todo.isCheck_complete())
+                    .create_at(todo.getCreate_at())
+                    .modified_at(todo.getModified_at())
+                    .goal_day(todo.getGoal_day())
+                    .category(todo.getCategory())
+                    .nickname(nickname) // 닉네임 추가
                     .build());
         }
-        return ldts;
+        return todoDtos;
     }
+
 
     public void update(TodoDto todoDto) {
         this.todoRepository.save(todoDto.toEntity());
@@ -77,7 +82,18 @@ public class TodoService {
     public List<TodoDto> getTodosByCategory(int categoryId) {
         List<Todo> todos = todoRepository.findByCategoryId(categoryId); // 카테고리에 해당하는 TODO 조회
         return todos.stream()
-                .map(TodoDto::fromEntity) // Entity → DTO 변환
+                .map(todo -> TodoDto.builder()
+                        .id(todo.getId())
+                        .check_complete(todo.isCheck_complete())
+                        .content(todo.getContent())
+                        .goal_day(todo.getGoal_day())
+                        .create_at(todo.getCreate_at())
+                        .modified_at(todo.getModified_at())
+                        .user(todo.getUser())
+                        .reviews(todo.getReviews())
+                        .image_path(todo.getImage_path())
+                        .category(todo.getCategory())
+                        .build())
                 .collect(Collectors.toList());
     }
 }
