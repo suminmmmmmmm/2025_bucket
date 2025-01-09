@@ -6,23 +6,36 @@
     <link rel="stylesheet" href="/dist/css/login.css">
 </head>
 <body>
-    <div>
-        <div onclick="window.location.href='/'" style="cursor: pointer">
-            <h1 style="color: #007bff;text-align: center">2025 버킷리스트</h1>
-        </div>
-        <fieldset class="login-container">
-            <h2>로그인</h2>
-            <form action="/login" method="post">
-                <label for="username">이름(닉네임)</label>
-                <input type="text" id="username" name="username">
-
-                <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password">
-
-                <button type="submit">로그인</button>
-                <a href="/signup" style="margin-top:20px;display:inline-block;color:darkblue">회원가입</a>
-            </form>
-        </fieldset>
+<div>
+    <div onclick="window.location.href='/'" style="cursor: pointer">
+        <h1 style="text-align: center;font-family: fantasy">2025 Bucket List</h1>
     </div>
+    <fieldset class="login-container">
+        <h2>로그인</h2>
+        <form action="/login" method="post">
+            <label for="username">이메일</label>
+            <input type="text" id="username" name="username">
+
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password">
+
+            <button type="submit" style="background: #222;">로그인</button>
+            <a href="/signup" style="margin-top:20px;display:inline-block;color:darkblue">회원가입</a>
+        </form>
+    </fieldset>
+<!--    <fieldset>-->
+<!--        &lt;!&ndash; 로그아웃 등장 &ndash;&gt;-->
+<!--        <div sec:authorize="isAuthenticated()">-->
+<!--            &lt;!&ndash; 인증된 사용자만 볼수 있는 콘텐츠 &ndash;&gt;-->
+<!--            &lt;!&ndash; 사용자명의 실데이터가 이메일 -> name은 이메일로 체크되야함 &ndash;&gt;-->
+<!--            Welcome <span sec:authentication="name"></span>-->
+<!--            <a href="/logout">로그아웃</a>-->
+<!--        </div>-->
+<!--        <div sec:authorize="isAnonymous()">-->
+<!--            &lt;!&ndash; 인증되지 않은 유저에게 노출된다 &ndash;&gt;-->
+<!--            <a href="/login">로그인</a>-->
+<!--        </div>-->
+<!--    </fieldset>-->
+</div>
 </body>
 </html>

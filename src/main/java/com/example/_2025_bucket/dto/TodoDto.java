@@ -1,12 +1,10 @@
 package com.example._2025_bucket.dto;
 
+import com.example._2025_bucket.entity.Category;
 import com.example._2025_bucket.entity.Review;
 import com.example._2025_bucket.entity.Todo;
 import com.example._2025_bucket.entity.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +14,8 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class TodoDto {
     private long id;
     private boolean check_complete;
@@ -25,6 +25,8 @@ public class TodoDto {
     private LocalDateTime modified_at;
     private User user;
     private List<Review> reviews;
+    private String image_path;
+    private Category category;
 
     public Todo toEntity(){
         return Todo.builder()
@@ -36,6 +38,27 @@ public class TodoDto {
                 .modified_at(this.modified_at)
                 .user(this.user)
                 .reviews(this.reviews)
+                .imagePath(this.image_path)
+                .category(this.category)
                 .build();
     }
+
+
+    // 추가된 fromEntity 메서드
+    public static TodoDto fromEntity(Todo todo) {
+        TodoDto dto = new TodoDto();
+        dto.setId(todo.getId());
+        dto.setCheck_complete(todo.isCheck_complete());
+        dto.setContent(todo.getContent());
+        dto.setGoal_day(todo.getGoal_day());
+        dto.setCreate_at(todo.getCreate_at());
+        dto.setModified_at(todo.getModified_at());
+        dto.setUser(todo.getUser());
+        dto.setReviews(todo.getReviews());
+        dto.setImage_path(todo.getImage_path());
+        dto.setCategory(todo.getCategory());
+        return dto;
+    }
+
+
 }

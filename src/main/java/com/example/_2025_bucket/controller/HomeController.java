@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String index(){
-        System.out.println("메인화면");
-        return "index";
+    public String redirectToBucketList() {
+        return "redirect:/login";
     }
+
 }

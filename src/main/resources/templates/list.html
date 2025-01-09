@@ -7,7 +7,7 @@
             <div th:replace="lib/navibar.html :: frag_navibar"></div>
             <div class="container-fluid">
                 <div class="row" style="justify-content: center">
-                    <div onclick="window.location.href='/'" class="col-sm-6" style="cursor: pointer">
+                    <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
                         <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
                     </div>
                 </div>
@@ -15,70 +15,90 @@
         </div>
         <section class="content">
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col-md-12" style="max-width: 700px;margin: 0 auto">
+                        <!-- 카테고리 선택 -->
+                        <!--
+                        <form method="get" action="/list">
+                            <select name="categoryId" onchange="this.form.submit()">
+                                <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${selectedCategory == category.id}">
+                                </option>
+                            </select>
+                        </form>
+                        -->
+
                         <div class="card">
                             <div class="card-header">
-                                <ul class="nav nav-pills nav-justified">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#" aria-current="page">여행</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" aria-current="page">행복</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#" aria-current="page">커리어/꿈</a>
-                                    </li>
-                                </ul>
+
+                                <form method="get" action="/list"  id="categoryForm">
+                                    <select style="display: none" name="categoryId" id="categorySelect" onchange="this.form.submit()" >
+                                        <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"
+                                                th:selected="${selectedCategory == category.id}">
+                                        </option>
+                                    </select>
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li class="nav-item">
+                                            <a href="/list" class="nav-link" th:text="전체"
+                                               th:classappend="${selectedCategory == null} ? 'active'"></a>
+                                        </li>
+                                        <li class="nav-item" th:each="category : ${categories}">
+                                            <button th:value="${category.id}" type="button" class="nav-link"
+                                                    th:classappend="${selectedCategory == category.id} ? 'active'"
+                                                    th:onclick="'selectCategory(' + ${category.id} + ')'" th:text="${category.name}"></button>
+                                        </li>
+                                    </ul>
+                                </form>
+                                <script>
+                                    function selectCategory(categoryId) {
+                                        var selectElement = document.getElementById('categorySelect');
+
+                                        // 모든 option을 초기화하고 선택한 categoryId에 해당하는 option을 선택
+                                        for (var i = 0; i < selectElement.options.length; i++) {
+                                            if (selectElement.options[i].value == categoryId) {
+                                                selectElement.options[i].selected = true; // 해당 옵션을 선택
+                                            } else {
+                                                selectElement.options[i].selected = false; // 다른 옵션 선택 해제
+                                            }
+                                        }
+
+                                        // 폼 제출
+                                        selectElement.form.submit();
+                                    }
+                                </script>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap">
-                <!-- 예시1 -->
-                <div onclick="window.location.href = '#'" class="position-relative m-3 list-box">
-                    <img src="https://media.istockphoto.com/id/991732782/ko/%EC%82%AC%EC%A7%84/%EA%B3%A0%EA%B8%89-%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%EC%97%90%EC%84%9C-%EB%A0%88%EB%93%9C-%EC%99%80%EC%9D%B8%EC%9D%84-%EC%A0%9C%EA%B3%B5-%ED%95%98%EB%8A%94-%EC%86%8C%EB%AF%88%EB%A6%AC%EC%97%90%EC%9D%98-%ED%81%B4%EB%A1%9C%EC%A6%88%EC%97%85.jpg?s=2048x2048&w=is&k=20&c=j8CBITXwxK3k4oWOi95eeP5Ibt-R-NCrQy895K8yBqc="
-                         alt="Photo" class="img-fluid">
-<!--                    <div class="ribbon-wrapper ribbon-lg">-->
-<!--                        <div class="ribbon bg-info">-->
-<!--                            " 완료 "-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <div class="p-3">
-                        <h5>
-                            책정리
-                        </h5>
-                        <p>
-                            좋아하는 책으로 가득 채운 책장을 정리하는 대청소날
-                        </p>
-                        <span>홍길동</span>
-                    </div>
-                </div>
-                <!-- 예시2 -->
-                <div onclick="window.location.href = '#'" class="position-relative m-3 list-box">
-                    <img src="https://media.istockphoto.com/id/991732782/ko/%EC%82%AC%EC%A7%84/%EA%B3%A0%EA%B8%89-%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%EC%97%90%EC%84%9C-%EB%A0%88%EB%93%9C-%EC%99%80%EC%9D%B8%EC%9D%84-%EC%A0%9C%EA%B3%B5-%ED%95%98%EB%8A%94-%EC%86%8C%EB%AF%88%EB%A6%AC%EC%97%90%EC%9D%98-%ED%81%B4%EB%A1%9C%EC%A6%88%EC%97%85.jpg?s=2048x2048&w=is&k=20&c=j8CBITXwxK3k4oWOi95eeP5Ibt-R-NCrQy895K8yBqc="
-                         alt="Photo" class="img-fluid">
-                    <div class="ribbon-wrapper ribbon-lg">
-                        <div class="ribbon bg-info">
-                            " 완료 "
+                <div class="list-in" th:each="todoDto : ${todos}">
+                    <a th:href="|/list/detail/${todoDto.getId()}|" class="position-relative m-3 list-box">
+                        <img th:if="${todoDto.getImage_path() != null}"
+                             th:src="@{'http://localhost:8080\uploads' + ${todoDto.getImage_path()}}"
+                             alt="Todo Image" class="img-fluid">
+
+                        <div class="ribbon-wrapper ribbon-lg" th:style="${todoDto.check_complete}? 'display:inline-block':'display:none'">
+                            <div class="ribbon bg-info">
+                                완료
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-3">
-                        <h5>
-                            책정리
-                        </h5>
-                        <p>
-                            좋아하는 책으로 가득 채운 책장을 정리하는 대청소날
-                        </p>
-                        <span>홍길동</span>
-                    </div>
+                        <div class="p-3 list-content">
+                            <!-- 제목 -->
+                            <h5 th:text="${todoDto.getContent()}"></h5>
+                            <span th:text="${todoDto.goal_day}"></span>
+                        </div>
+                    </a>
                 </div>
             </div>
-
         </section>
 
     </div>

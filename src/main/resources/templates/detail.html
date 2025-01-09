@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{lib/layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Bucket List</title>
+    <link rel="stylesheet" href="/dist/css/bucket-detail.css">
 </head>
 <body>
-<!-- model을 이용해서 todoDTO를 넘김 -->
-<div th:text="|상세보기: ${todoDto}|"></div>
+<div class="wrapper" layout:fragment="content">
+    <div class="content-wrapper">
+        <div class="content-header list_title" style="background: white">
+            <div th:replace="lib/navibar.html :: frag_navibar"></div>
+            <div class="container-fluid">
+                <div class="row" style="justify-content: center">
+                    <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
+                        <h3 class="m-0" style="text-align: center; font-family: fantasy;">2025 Bucket List</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="containers">
+                <div class="text">
+                    <div class="main1_title">BUCKETLIST</div>
+                    <div class="name" th:text="|내용: ${todoDto.getContent()}|"></div>
+                    <div class="date" th:text="|목표기간: ${todoDto.getGoal_day()}|"></div>
+                    <div class="complete" th:text="|달성여부: ${todoDto.isCheck_complete()}|"></div>
+                    <div class="category" th:text="|카테고리: ${todoDto.getCategory()}|"></div>
+                    <div class="line1"></div>
+
+                    <div class="btn">
+                        <div class="btn_box1">
+                            <div class="comment" th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
+                        </div>
+                        <div class="btn_box2">
+                            <button id="btn2" type="button" onclick="location.href='/list/modify/${todoDto.getId()}'">수정</button>
+                            <button id="btn3" type="button" onclick="location.href='/list/delete/${todoDto.getId()}'">삭제</button>
+                        </div>
+                    </div>
+                    <div class="comment_box">
+                        <form id = "comment_text" th:action="|/review/create/${todoDto.getId()}|" method="post">
+                            <input type="text" name="content" id="content" placeholder="댓글 입력">
+                            <input type="submit" value="댓글 달기">
+                        </form>
+                        <div class="comments">
+                            <table th:each="review : ${todoDto.getReviews()}">
+                                <tr>
+                                    <td class="comment_list" th:text="${review.getContent()}"></td>
+                                    <td id ="td1"><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
+                                    <td id ="td2"><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+                                    <td th:if="${review.getModify_at() != null}">수정됨</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <img class="image" th:src="@{'http://localhost:8080/uploads' + ${todoDto.getImage_path()}}" alt="Bucket list 이미지">
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

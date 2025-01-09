@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>수정</title>
+</head>
+<body>
+<form th:object="${todoForm}" method="post" enctype="multipart/form-data">
+  <label for="content">Content:</label>
+  <input type="text" id="content" name="content" th:field="*{content}" required><br>
+
+  <label for="goal_day">Goal Day:</label>
+  <input type="date" id="goal_day" name="goal_day" th:field="*{goal_day}" th:value="*{goal_day}" required><br>
+
+  <label for="bucketImage">Upload Image:</label>
+  <input type="file" id="bucketImage" name="bucketImage" th:field="*{file}"><br>
+
+  <label for="check_complete">complete:</label>
+  <input type="checkbox" id="check_complete" name="check_complete" th:field="*{check_complete}"><br>
+
+  <label for="category">Category:</label>
+  <select id="category" name="category" required>
+    <option value="" disabled selected>Select a category</option>
+    <option th:each="category : ${categories}"
+            th:value="${category.id}"
+            th:text="${category.name}">
+    </option>
+  </select>
+
+  <button type="submit">Create</button>
+</form>
+</body>
+</html>
