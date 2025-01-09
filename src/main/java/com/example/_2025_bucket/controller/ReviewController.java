@@ -51,12 +51,14 @@ public class ReviewController {
                                Authentication authentication) {
         // id : 댓글의 id
         ReviewDto reviewDto = this.reviewService.getReview(id);
-        reviewForm.setContent(reviewDto.getContent());
-        reviewForm.setId(reviewDto.getId());
-        reviewForm.setTodoId(reviewDto.getTodo().getId());
-        model.addAttribute("reviewForm", reviewForm);
-
-        return "review_modify";
+        if(Objects.equals(authentication.getName(), this.reviewService.getReview(id).getUser().getUsername())){
+            reviewForm.setContent(reviewDto.getContent());
+            reviewForm.setId(reviewDto.getId());
+            reviewForm.setTodoId(reviewDto.getTodo().getId());
+            model.addAttribute("reviewForm", reviewForm);
+            return "review_modify";
+        }
+        return "redirect:/list/detail/" + reviewDto.getTodo().getId();
     }
 
     @PostMapping("/modify/{id}")
