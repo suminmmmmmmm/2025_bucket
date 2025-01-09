@@ -25,7 +25,7 @@ public class LikeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/like/{id}")
+    @GetMapping("/{id}")
     public String like(@PathVariable("id") Long id,
                        Authentication authentication) {
         try {

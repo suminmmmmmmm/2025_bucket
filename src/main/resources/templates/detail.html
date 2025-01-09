@@ -24,9 +24,10 @@
                 <div class="text">
                     <div class="main1_title">BUCKETLIST</div>
                     <div class="name" th:text="|내용: ${todoDto.getContent()}|"></div>
-                    <div class="date" th:text="|목표기간: ${todoDto.getGoal_day()}|"></div>
-                    <div class="complete" th:text="|달성여부: ${todoDto.isCheck_complete()}|"></div>
+                    <div class="date" th:text="|목표기간: ${todoDto.getGoalDay()}|"></div>
+                    <div class="complete" th:text="|달성여부: ${todoDto.isCheckComplete()}|"></div>
                     <div class="category" th:text="|카테고리: ${todoDto.getCategory().name}|"></div>
+                    <button id="btn4" th:text="|좋아요 ${liked}|" th:onclick="|location.href='@{/like/}' + ${todoDto.getId()}|"></button>
                     <div class="line1"></div>
 
                     <div class="btn">
@@ -55,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <img class="image" th:src="@{'http://localhost:8080/uploads' + ${todoDto.getImage_path()}}" alt="Bucket list 이미지">
+                <img class="image" th:src="@{'http://localhost:8080/uploads' + ${todoDto.getImagePath()}}" alt="Bucket list 이미지">
             </div>
         </div>
     </div>

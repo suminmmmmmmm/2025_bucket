@@ -18,28 +18,28 @@ import java.util.List;
 @AllArgsConstructor
 public class TodoDto {
     private long id;
-    private boolean check_complete;
+    private boolean checkComplete;
     private String content;
-    private LocalDate goal_day;
-    private LocalDateTime create_at;
-    private LocalDateTime modified_at;
+    private LocalDate goalDay;
+    private LocalDateTime uploadAt;
+    private LocalDateTime modifiedAt;
     private User user;
     private List<Review> reviews;
-    private String image_path;
+    private String imagePath;
     private Category category;
     private String nickname; // 닉네임 추가
 
     public Todo toEntity(){
         return Todo.builder()
                 .id(this.id)
-                .check_complete(this.check_complete)
+                .checkComplete(this.checkComplete)
                 .content(this.content)
-                .goal_day(this.goal_day)
-                .create_at(this.create_at)
-                .modified_at(this.modified_at)
+                .goalDay(this.goalDay)
+                .uploadAt(this.uploadAt)
+                .modifiedAt(this.modifiedAt)
                 .user(this.user)
                 .reviews(this.reviews)
-                .imagePath(this.image_path)
+                .imagePath(this.imagePath)
                 .category(this.category)
                 .build();
     }
