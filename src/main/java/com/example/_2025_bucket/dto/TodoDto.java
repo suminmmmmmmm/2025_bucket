@@ -27,6 +27,7 @@ public class TodoDto {
     private List<Review> reviews;
     private String image_path;
     private Category category;
+    private String nickname; // 닉네임 추가
 
     public Todo toEntity(){
         return Todo.builder()
