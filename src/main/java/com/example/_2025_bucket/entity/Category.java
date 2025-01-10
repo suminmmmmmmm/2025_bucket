@@ -1,5 +1,6 @@
 package com.example._2025_bucket.entity;
 
+import com.example._2025_bucket.dto.CategoryDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,5 +28,9 @@ public class Category {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public CategoryDto toDto() {
+        return CategoryDto.fromEntity(this);
     }
 }

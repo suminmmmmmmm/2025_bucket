@@ -1,6 +1,7 @@
 package com.example._2025_bucket.entity;
 
 
+import com.example._2025_bucket.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class User implements UserDetails {
     // 사용자와 TODO의 1:N 관계 설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todos;
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Likes> likes;
 
     @Builder
     public User(long id, String email, String password, String nickname, LocalDateTime create_at) {
@@ -81,5 +85,9 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    public UserDto toDto() {
+        return UserDto.fromEntity(this);
     }
 }

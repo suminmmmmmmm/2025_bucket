@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 // 게시글 작성, 수정
 
@@ -59,9 +60,10 @@ public class CreateListController {
         }
         try {
             MultipartFile bucketImage = todoForm.getFile();
+            String fileName;
             if (!bucketImage.isEmpty()) {
                 // 외부 디렉토리에 저장 경로 설정 및 중복제거
-                String fileName = System.currentTimeMillis() + "_" + bucketImage.getOriginalFilename();
+                fileName = System.currentTimeMillis() + "_" + bucketImage.getOriginalFilename();
                 Path path = Paths.get(URL);
 
                 // 실제 저장될 파일경로
@@ -74,22 +76,25 @@ public class CreateListController {
 
                 Path filePath = path.resolve(fileName);
                 bucketImage.transferTo(filePath.toFile());
-
-                System.out.printf(authentication.getName());
-                System.out.printf(String.valueOf(userService.getUserByEmail(authentication.getName()).getId()));
-                // 저장된 경로를 DTO에 설정
-                TodoDto todoDto = TodoDto.builder()
-                        .create_at(LocalDateTime.now())
-                        .check_complete(todoForm.isCheck_complete()) // 체크박스 값 처리
-                        .image_path("/images/" + fileName)
-                        .content(todoForm.getContent())
-                        .goal_day(todoForm.getGoal_day())
-                        .category(categoryService.getCategoryById(todoForm.getCategory()).toEntity())
-                        .user(userService.getUserByEmail(authentication.getName()).toEntity())
-                        .build();
-                System.out.println(todoDto.toString());
-                this.todoService.save(todoDto);
             }
+            else {
+                fileName = "none.jpg";
+            }
+            System.out.printf(authentication.getName());
+            System.out.printf(String.valueOf(userService.getUserByEmail(authentication.getName()).getId()));
+            // 저장된 경로를 DTO에 설정
+            TodoDto todoDto = TodoDto.builder()
+                    .uploadAt(LocalDateTime.now())
+                    .checkComplete(todoForm.isCheck_complete()) // 체크박스 값 처리
+                    .imagePath("/images/" + fileName)
+                    .content(todoForm.getContent())
+                    .goalDay(todoForm.getGoal_day())
+                    .categoryDto(categoryService.getCategoryById(todoForm.getCategory()))
+                    .userDto(userService.getUserByEmail(authentication.getName()))
+                    .build();
+            System.out.println(todoDto.toString());
+            this.todoService.save(todoDto);
+
         } catch (Exception e) {
             // 파일 입력 실패시 로직
         }

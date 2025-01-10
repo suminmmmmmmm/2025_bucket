@@ -1,6 +1,7 @@
 package com.example._2025_bucket.controller;
 
 
+import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.TodoService;
 import com.example._2025_bucket.entity.Todo;
 import com.example._2025_bucket.entity.User;
@@ -18,7 +19,6 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService todoService;
-    private final UserRepository userRepository;
 
     @GetMapping("/user")
     public String userInfo(@AuthenticationPrincipal User user) {
@@ -28,8 +28,8 @@ public class TodoController {
 
     @GetMapping("/user/{id}")
     public String getTodosForUser(Model model, @AuthenticationPrincipal User user) {
-        List<Todo> todos = todoService.getTodosByUserId(user.getId());
-        model.addAttribute("todos", todos);
+        List<TodoDto> todoDtos = todoService.getTodosByUserId(user.getId());
+        model.addAttribute("todoDtos", todoDtos);
         return "todo"; // 뷰 템플릿
     }
 }

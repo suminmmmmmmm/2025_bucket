@@ -1,14 +1,15 @@
 package com.example._2025_bucket.controller;
 
 import com.example._2025_bucket.dto.CategoryDto;
-import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.CategoryService;
+import com.example._2025_bucket.service.LikeService;
 import com.example._2025_bucket.service.TodoService;
 import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,36 +34,66 @@ public class DetailController {
     private CategoryService categoryService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LikeService likeService;
 
     // 썸네일 저장 경로
     private static final String URL = "C:/uploads/images/";
 
 
-    @GetMapping("")
-    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
-        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
-        model.addAttribute("categories", categories);
+//    @GetMapping("")
+//    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId,
+//                               Model model) {
+//        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
+//        model.addAttribute("categories", categories);
+//
+//        List<TodoDto> todos;
+//        if (categoryId != null) {
+//            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
+//            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
+//        } else {
+//            todos = todoService.getAllTodos(); // 모든 TODO 조회
+//        }
+//        model.addAttribute("todos", todos);
+//        return "list"; // list.html 렌더링
+//    }
 
-        List<TodoDto> todos;
-        if (categoryId != null) {
-            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
-            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
-        } else {
-            todos = todoService.getAllTodos(); // 모든 TODO 조회
-        }
+    @GetMapping("")
+    public String showDetail(@RequestParam(value = "page", defaultValue = "0") int page,
+                             @RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                             Model model){
+        Page<TodoDto> todos = this.todoService.getPageTodo(page, categoryId);
+        model.addAttribute("categories", this.categoryService.getAllCategories());
         model.addAttribute("todos", todos);
-        return "list"; // list.html 렌더링
+        model.addAttribute("categoryId", categoryId);
+        return "list";
     }
 
     //상세보기
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") long id, Model model) {
+    public String detail(@PathVariable("id") long id,
+                         Model model,
+                         Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
+            long liked = this.likeService.countLikeByTodoId(id);
 
-            System.out.println(todoDto.toString());
+            // 사용자의 좋아요 여부 전달
+            if (this.likeService.getLikeByTodoAndUser(
+                    this.todoService.getTodo(id),
+                    this.userService.getUserByEmail(authentication.getName())
+            ) == null) {
+                model.addAttribute("isLiked", false);
+            }
+            else{
+                model.addAttribute("isLiked", true);
+            }
 
-            model.addAttribute("todoDto", todoDto); // 아이디값 화면에 전달
+            // todo정보 전달
+            model.addAttribute("todoDto", todoDto);
+            // 총 좋아요 수 전달
+            model.addAttribute("liked", liked);
+
         }
         catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -79,17 +110,17 @@ public class DetailController {
             Authentication authentication) {
         try {
             TodoDto todoDto = todoService.getTodo(id);
-            System.out.println(authentication.getName());
-            System.out.println(todoDto.getUser().getEmail());
-            if(!Objects.equals(authentication.getName(), todoDto.getUser().getEmail())){
+            // 작성자가 수정하려 하는지 검사
+            if(!Objects.equals(authentication.getName(), todoDto.getUserDto().getEmail())){
                 System.out.println("!!!!!!!!!!!!다른 사용자");
                 return "redirect:/list/detail/" + id;
 
             }
 
             todoForm.setContent(todoDto.getContent());
-            todoForm.setCheck_complete(todoDto.isCheck_complete());
-            todoForm.setGoal_day(todoDto.getGoal_day());
+            todoForm.setCheck_complete(todoDto.isCheckComplete());
+            todoForm.setGoal_day(todoDto.getGoalDay());
+            todoForm.setCategory(todoDto.getCategoryDto().getId());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
         }
@@ -122,15 +153,15 @@ public class DetailController {
                 Path filePath = path.resolve(fileName);
                 bucketImage.transferTo(filePath.toFile());
 
-                todoDto.setImage_path("/images/" + fileName);
+                todoDto.setImagePath("/images/" + fileName);
             }
 
             todoDto.setContent(todoForm.getContent());
-            todoDto.setGoal_day(todoForm.getGoal_day());
-            todoDto.setCategory(this.categoryService.getCategoryById(todoForm.getCategory()).toEntity());
-            todoDto.setCheck_complete(todoForm.isCheck_complete());
+            todoDto.setGoalDay(todoForm.getGoal_day());
+            todoDto.setCategoryDto(this.categoryService.getCategoryById(todoForm.getCategory()));
+            todoDto.setCheckComplete(todoForm.isCheck_complete());
 
-            todoDto.setModified_at(LocalDateTime.now());
+            todoDto.setModifiedAt(LocalDateTime.now());
 
             System.out.printf(todoDto.toString());
 
@@ -149,8 +180,7 @@ public class DetailController {
                          Authentication authentication) {
         try{
             TodoDto todoDto = this.todoService.getTodo(id);
-            long uid = todoDto.getUser().getId();
-            if (Objects.equals(authentication.getName(), todoDto.getUser().getEmail())) {
+            if (Objects.equals(authentication.getName(), todoDto.getUserDto().getEmail())) {
                 this.todoService.remove(todoDto);
                 return "redirect:/list";
             }

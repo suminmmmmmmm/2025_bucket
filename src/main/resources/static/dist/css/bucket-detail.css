@@ -137,7 +137,7 @@ a {
     --bs-btn-border-color: none;
 }
 
-#btn2, #btn3 {
+#btn2, #btn3, #btn4 {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
