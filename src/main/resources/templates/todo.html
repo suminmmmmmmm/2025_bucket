@@ -38,7 +38,7 @@
 
             <!-- 버킷리스트 목록 grid -->
             <div class="list-box-wrap" >
-                <div class="list-in" th:each="todo : ${todos}">
+                <div class="list-in" th:each="todo : ${todoDtos}">
                     <div th:onclick="'window.location.href=\'/list/detail/' + ${todo.id} + '\''" class="position-relative m-3 list-box">
                         <img th:src="@{'http://localhost:8080\uploads' + ${todo.getImagePath}}"
 
