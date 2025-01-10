@@ -80,8 +80,8 @@ public class DetailController {
 
             // 사용자의 좋아요 여부 전달
             if (this.likeService.getLikeByTodoAndUser(
-                    this.todoService.getTodo(id).toEntity(),
-                    this.userService.getUserByEmail(authentication.getName()).toEntity()
+                    this.todoService.getTodo(id),
+                    this.userService.getUserByEmail(authentication.getName())
             ) == null) {
                 model.addAttribute("isLiked", false);
             }
@@ -111,7 +111,7 @@ public class DetailController {
         try {
             TodoDto todoDto = todoService.getTodo(id);
             // 작성자가 수정하려 하는지 검사
-            if(!Objects.equals(authentication.getName(), todoDto.getUser().getEmail())){
+            if(!Objects.equals(authentication.getName(), todoDto.getUserDto().getEmail())){
                 System.out.println("!!!!!!!!!!!!다른 사용자");
                 return "redirect:/list/detail/" + id;
 
@@ -120,7 +120,7 @@ public class DetailController {
             todoForm.setContent(todoDto.getContent());
             todoForm.setCheck_complete(todoDto.isCheckComplete());
             todoForm.setGoal_day(todoDto.getGoalDay());
-            todoForm.setCategory(todoDto.getCategory().getId());
+            todoForm.setCategory(todoDto.getCategoryDto().getId());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
         }
@@ -158,7 +158,7 @@ public class DetailController {
 
             todoDto.setContent(todoForm.getContent());
             todoDto.setGoalDay(todoForm.getGoal_day());
-            todoDto.setCategory(this.categoryService.getCategoryById(todoForm.getCategory()).toEntity());
+            todoDto.setCategoryDto(this.categoryService.getCategoryById(todoForm.getCategory()));
             todoDto.setCheckComplete(todoForm.isCheck_complete());
 
             todoDto.setModifiedAt(LocalDateTime.now());
@@ -180,8 +180,7 @@ public class DetailController {
                          Authentication authentication) {
         try{
             TodoDto todoDto = this.todoService.getTodo(id);
-            long uid = todoDto.getUser().getId();
-            if (Objects.equals(authentication.getName(), todoDto.getUser().getEmail())) {
+            if (Objects.equals(authentication.getName(), todoDto.getUserDto().getEmail())) {
                 this.todoService.remove(todoDto);
                 return "redirect:/list";
             }

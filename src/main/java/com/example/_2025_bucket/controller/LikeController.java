@@ -30,17 +30,17 @@ public class LikeController {
                        Authentication authentication) {
         try {
             LikeDto likeDto = this.likeService.getLikeByTodoAndUser(
-                    this.todoService.getTodo(id).toEntity(),
-                    this.userService.getUserByEmail(authentication.getName()).toEntity()
+                    this.todoService.getTodo(id),
+                    this.userService.getUserByEmail(authentication.getName())
             );
             if(likeDto == null) {
                 this.likeService.create(LikeDto.builder()
-                        .todo(this.todoService.getTodo(id).toEntity())
-                        .user(this.userService.getUserByEmail(authentication.getName()).toEntity())
+                        .todo(this.todoService.getTodo(id))
+                        .user(this.userService.getUserByEmail(authentication.getName()))
                         .build());
             }
             else{
-                this.likeService.remove(likeDto.toEntity());
+                this.likeService.remove(likeDto);
             }
         }catch (Exception e){
 

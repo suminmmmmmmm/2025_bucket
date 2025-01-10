@@ -1,5 +1,6 @@
 package com.example._2025_bucket.entity;
 
+import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.entity.Review;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -43,7 +44,7 @@ public class Todo {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
-    @OneToMany
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Likes> likes;
 
     @Builder
@@ -65,5 +66,21 @@ public class Todo {
         this.category = category;
         this.imagePath = imagePath;
 
+    }
+
+    public TodoDto toDto(){
+        return TodoDto.builder()
+                .id(this.id)
+                .checkComplete(this.checkComplete)
+                .content(this.content)
+                .goalDay(goalDay)
+                .uploadAt(this.uploadAt)
+                .modifiedAt(this.modifiedAt)
+                .categoryDto(this.category.toDto())
+                .userDto(this.user.toDto())
+                .nickname(this.user.getNickname())
+                .imagePath(this.imagePath)
+                .reviews(this.reviews)
+                .build();
     }
 }

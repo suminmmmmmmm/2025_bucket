@@ -23,10 +23,10 @@ public class TodoDto {
     private LocalDate goalDay;
     private LocalDateTime uploadAt;
     private LocalDateTime modifiedAt;
-    private User user;
+    private UserDto userDto;
     private List<Review> reviews;
     private String imagePath;
-    private Category category;
+    private CategoryDto categoryDto;
     private String nickname; // 닉네임 추가
 
     public Todo toEntity(){
@@ -37,10 +37,10 @@ public class TodoDto {
                 .goalDay(this.goalDay)
                 .uploadAt(this.uploadAt)
                 .modifiedAt(this.modifiedAt)
-                .user(this.user)
+                .user(this.userDto.toEntity())
                 .reviews(this.reviews)
                 .imagePath(this.imagePath)
-                .category(this.category)
+                .category(this.categoryDto.toEntity())
                 .build();
     }
 }

@@ -23,6 +23,15 @@ public class UserDto {
     private String confirmPassword;
     private String nickname;
 
+    public static UserDto fromEntity(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .nickname(user.getNickname())
+                .build();
+    }
+
     public User toEntity() {
         User user = new User();
         user.setId(id);

@@ -14,14 +14,14 @@ import lombok.ToString;
 @Builder
 public class LikeDto {
     private long id;
-    private Todo todo;
-    private User user;
+    private TodoDto todo;
+    private UserDto user;
 
     public Likes toEntity(){
         return Likes.builder()
                 .id(this.id)
-                .todo(this.todo)
-                .user(this.user)
+                .todo(this.todo.toEntity())
+                .user(this.user.toEntity())
                 .build();
     }
 }
