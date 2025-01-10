@@ -20,17 +20,17 @@ public class Todo {
     private long id;
 
     @Column(nullable = false)
-    private boolean check_complete;
+    private boolean checkComplete;
 
     @Column(nullable = false)
     private String content;
 
-    private LocalDate goal_day;
-    private LocalDateTime create_at;
-    private LocalDateTime modified_at;
+    private LocalDate goalDay;
+    private LocalDateTime uploadAt;
+    private LocalDateTime modifiedAt;
 
     @Column(name = "IMAGE_PATH")
-    private String image_path;
+    private String imagePath;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID") // CATEGORY 테이블과 연관
@@ -47,23 +47,23 @@ public class Todo {
     private List<Likes> likes;
 
     @Builder
-    public Todo(long id, boolean check_complete, String content, LocalDate goal_day,
-                LocalDateTime create_at, LocalDateTime modified_at,
+    public Todo(long id, boolean checkComplete, String content, LocalDate goalDay,
+                LocalDateTime uploadAt, LocalDateTime modifiedAt,
                 User user, List<Review> reviews, String imagePath,
                 Category category) {
         if (user == null) {
             throw new IllegalArgumentException("User must not be null");
         }
         this.id = id;
-        this.check_complete = check_complete;
+        this.checkComplete = checkComplete;
         this.content = content;
-        this.goal_day = goal_day;
-        this.create_at = create_at;
-        this.modified_at = modified_at;
+        this.goalDay = goalDay;
+        this.uploadAt = uploadAt;
+        this.modifiedAt = modifiedAt;
         this.user = user;
         this.reviews = reviews;
         this.category = category;
-        this.image_path = imagePath;
+        this.imagePath = imagePath;
 
     }
 }

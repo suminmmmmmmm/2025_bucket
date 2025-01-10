@@ -1,9 +1,12 @@
 package com.example._2025_bucket.service;
 
 import com.example._2025_bucket.dto.TodoDto;
+import com.example._2025_bucket.entity.Category;
 import com.example._2025_bucket.entity.Todo;
+import com.example._2025_bucket.repository.CategoryRepository;
 import com.example._2025_bucket.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,16 +22,16 @@ public class TodoService {
         if(ot.isPresent()){
             Todo todo = ot.get();
             return TodoDto.builder()
-                    .id(todo.getId())
-                    .check_complete(todo.isCheck_complete())
+                    .category(todo.getCategory())
                     .user(todo.getUser())
                     .reviews(todo.getReviews())
+                    .imagePath(todo.getImagePath())
+                    .checkComplete(todo.isCheckComplete())
+                    .modifiedAt(todo.getModifiedAt())
                     .content(todo.getContent())
-                    .create_at(todo.getCreate_at())
-                    .modified_at(todo.getModified_at())
-                    .goal_day(todo.getGoal_day())
-                    .image_path(todo.getImage_path())
-                    .category(todo.getCategory())
+                    .goalDay(todo.getGoalDay())
+                    .uploadAt(todo.getUploadAt())
+                    .id(todo.getId())
                     .build();
         }
         else {
@@ -46,16 +49,16 @@ public class TodoService {
             String nickname = (todo.getUser() != null) ? todo.getUser().getNickname() : "Unknown";
 
             todoDtos.add(TodoDto.builder()
-                    .image_path(todo.getImage_path())
-                    .user(todo.getUser()) // User 객체 포함
-                    .id(todo.getId())
-                    .content(todo.getContent())
-                    .reviews(todo.getReviews())
-                    .check_complete(todo.isCheck_complete())
-                    .create_at(todo.getCreate_at())
-                    .modified_at(todo.getModified_at())
-                    .goal_day(todo.getGoal_day())
                     .category(todo.getCategory())
+                    .user(todo.getUser())
+                    .reviews(todo.getReviews())
+                    .imagePath(todo.getImagePath())
+                    .checkComplete(todo.isCheckComplete())
+                    .modifiedAt(todo.getModifiedAt())
+                    .content(todo.getContent())
+                    .goalDay(todo.getGoalDay())
+                    .uploadAt(todo.getUploadAt())
+                    .id(todo.getId())
                     .nickname(nickname) // 닉네임 추가
                     .build());
         }
@@ -83,17 +86,50 @@ public class TodoService {
         List<Todo> todos = todoRepository.findByCategoryId(categoryId); // 카테고리에 해당하는 TODO 조회
         return todos.stream()
                 .map(todo -> TodoDto.builder()
-                        .id(todo.getId())
-                        .check_complete(todo.isCheck_complete())
-                        .content(todo.getContent())
-                        .goal_day(todo.getGoal_day())
-                        .create_at(todo.getCreate_at())
-                        .modified_at(todo.getModified_at())
+                        .category(todo.getCategory())
                         .user(todo.getUser())
                         .reviews(todo.getReviews())
-                        .image_path(todo.getImage_path())
-                        .category(todo.getCategory())
+                        .imagePath(todo.getImagePath())
+                        .checkComplete(todo.isCheckComplete())
+                        .modifiedAt(todo.getModifiedAt())
+                        .content(todo.getContent())
+                        .goalDay(todo.getGoalDay())
+                        .uploadAt(todo.getUploadAt())
+                        .id(todo.getId())
+                        .nickname((todo.getUser() != null) ? todo.getUser().getNickname() : "Unknown")
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public Page<TodoDto> getPageTodo(int page, int id){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("uploadAt"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Page<Todo> todos;
+
+        if(id == 0){
+            todos = this.todoRepository.findAllBy(pageable);
+        }
+        else {
+            todos = this.todoRepository.findByCategoryId(id, pageable);
+        }
+
+        List<TodoDto> todoDtos = todos.getContent().stream().map(
+                todo -> TodoDto.builder()
+                        .category(todo.getCategory())
+                        .user(todo.getUser())
+                        .reviews(todo.getReviews())
+                        .imagePath(todo.getImagePath())
+                        .checkComplete(todo.isCheckComplete())
+                        .modifiedAt(todo.getModifiedAt())
+                        .content(todo.getContent())
+                        .goalDay(todo.getGoalDay())
+                        .uploadAt(todo.getUploadAt())
+                        .id(todo.getId())
+                        .nickname((todo.getUser() != null) ? todo.getUser().getNickname() : "Unknown")
+                        .build()
+        ).toList();
+
+        return new PageImpl<>(todoDtos, todos.getPageable(), todos.getTotalElements());
     }
 }

@@ -79,11 +79,11 @@ public class CreateListController {
                 System.out.printf(String.valueOf(userService.getUserByEmail(authentication.getName()).getId()));
                 // 저장된 경로를 DTO에 설정
                 TodoDto todoDto = TodoDto.builder()
-                        .create_at(LocalDateTime.now())
-                        .check_complete(todoForm.isCheck_complete()) // 체크박스 값 처리
-                        .image_path("/images/" + fileName)
+                        .uploadAt(LocalDateTime.now())
+                        .checkComplete(todoForm.isCheck_complete()) // 체크박스 값 처리
+                        .imagePath("/images/" + fileName)
                         .content(todoForm.getContent())
-                        .goal_day(todoForm.getGoal_day())
+                        .goalDay(todoForm.getGoal_day())
                         .category(categoryService.getCategoryById(todoForm.getCategory()).toEntity())
                         .user(userService.getUserByEmail(authentication.getName()).toEntity())
                         .build();

@@ -1,7 +1,6 @@
 package com.example._2025_bucket.controller;
 
 import com.example._2025_bucket.dto.CategoryDto;
-import com.example._2025_bucket.dto.UserDto;
 import com.example._2025_bucket.form.TodoForm;
 import com.example._2025_bucket.dto.TodoDto;
 import com.example._2025_bucket.service.CategoryService;
@@ -10,6 +9,7 @@ import com.example._2025_bucket.service.TodoService;
 import com.example._2025_bucket.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,20 +41,32 @@ public class DetailController {
     private static final String URL = "C:/uploads/images/";
 
 
-    @GetMapping("")
-    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
-        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
-        model.addAttribute("categories", categories);
+//    @GetMapping("")
+//    public String showTodoList(@RequestParam(value = "categoryId", required = false) Integer categoryId,
+//                               Model model) {
+//        List<CategoryDto> categories = categoryService.getAllCategories(); // 모든 카테고리 조회
+//        model.addAttribute("categories", categories);
+//
+//        List<TodoDto> todos;
+//        if (categoryId != null) {
+//            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
+//            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
+//        } else {
+//            todos = todoService.getAllTodos(); // 모든 TODO 조회
+//        }
+//        model.addAttribute("todos", todos);
+//        return "list"; // list.html 렌더링
+//    }
 
-        List<TodoDto> todos;
-        if (categoryId != null) {
-            todos = todoService.getTodosByCategory(categoryId); // 카테고리에 해당하는 TODO 조회
-            model.addAttribute("selectedCategory", categoryId); // 선택된 카테고리 ID
-        } else {
-            todos = todoService.getAllTodos(); // 모든 TODO 조회
-        }
+    @GetMapping("")
+    public String showDetail(@RequestParam(value = "page", defaultValue = "0") int page,
+                             @RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                             Model model){
+        Page<TodoDto> todos = this.todoService.getPageTodo(page, categoryId);
+        model.addAttribute("categories", this.categoryService.getAllCategories());
         model.addAttribute("todos", todos);
-        return "list"; // list.html 렌더링
+        model.addAttribute("categoryId", categoryId);
+        return "list";
     }
 
     //상세보기
@@ -106,8 +118,9 @@ public class DetailController {
             }
 
             todoForm.setContent(todoDto.getContent());
-            todoForm.setCheck_complete(todoDto.isCheck_complete());
-            todoForm.setGoal_day(todoDto.getGoal_day());
+            todoForm.setCheck_complete(todoDto.isCheckComplete());
+            todoForm.setGoal_day(todoDto.getGoalDay());
+            todoForm.setCategory(todoDto.getCategory().getId());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
         }
@@ -140,15 +153,15 @@ public class DetailController {
                 Path filePath = path.resolve(fileName);
                 bucketImage.transferTo(filePath.toFile());
 
-                todoDto.setImage_path("/images/" + fileName);
+                todoDto.setImagePath("/images/" + fileName);
             }
 
             todoDto.setContent(todoForm.getContent());
-            todoDto.setGoal_day(todoForm.getGoal_day());
+            todoDto.setGoalDay(todoForm.getGoal_day());
             todoDto.setCategory(this.categoryService.getCategoryById(todoForm.getCategory()).toEntity());
-            todoDto.setCheck_complete(todoForm.isCheck_complete());
+            todoDto.setCheckComplete(todoForm.isCheck_complete());
 
-            todoDto.setModified_at(LocalDateTime.now());
+            todoDto.setModifiedAt(LocalDateTime.now());
 
             System.out.printf(todoDto.toString());
 
