@@ -120,6 +120,7 @@ public class DetailController {
             todoForm.setContent(todoDto.getContent());
             todoForm.setCheck_complete(todoDto.isCheckComplete());
             todoForm.setGoal_day(todoDto.getGoalDay());
+            todoForm.setCategory(todoDto.getCategory().getId());
             List<CategoryDto> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories); // 모든 카테고리를 전달
         }

@@ -1,33 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{lib/layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>수정</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 Bucket List</title>
+  <link rel="stylesheet" href="/dist/css/bucket-create.css">
 </head>
-<body>
-<form th:object="${todoForm}" method="post" enctype="multipart/form-data">
-  <label for="content">Content:</label>
-  <input type="text" id="content" name="content" th:field="*{content}" required><br>
+<div class="wrapper" layout:fragment="content">
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header list_title" style="background: white">
+      <div th:replace="lib/navibar.html :: frag_navibar"></div>
+      <div class="container-fluid">
+        <div class="row" style="justify-content: center">
+          <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
+            <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="box">
+        <form th:object="${todoForm}" method="post" enctype="multipart/form-data">
+          <label id="content_text" for="content">이루고 싶은 것이 무엇인가요?</label>
+          <input type="text" id="content" name="content" th:field="*{content}" required><br>
 
-  <label for="goal_day">Goal Day:</label>
-  <input type="date" id="goal_day" name="goal_day" th:field="*{goal_day}" th:value="*{goal_day}" required><br>
+          <div class="category">
+            <label class="categoryed" for="category">카테고리</label>
+            <div class="category_list">
+              <select id="category" name="category" required th:field="*{category}">
+                <option value="0" disabled selected>Select a category</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
+                </option>
+              </select>
+            </div>
+          </div>
 
-  <label for="bucketImage">Upload Image:</label>
-  <input type="file" id="bucketImage" name="bucketImage" th:field="*{file}"><br>
+          <label id="goal_day_text" for="goal_day">언제까지 이루고 싶은지 날짜를 정해보세요.</label>
+          <input type="date" id="goal_day" name="goal_day" th:field="*{goal_day}" required><br>
 
-  <label for="check_complete">complete:</label>
-  <input type="checkbox" id="check_complete" name="check_complete" th:field="*{check_complete}"><br>
+          <label id="bucketImage_text" for="bucketImage">함께 연상되는 이미지를 넣어보세요<br>
+          (선택안하면 이전의 사진이 사용됩니다)</label>
+          <input type="file" id="bucketImage" name="bucketImage" th:field="*{file}"><br>
 
-  <label for="category">Category:</label>
-  <select id="category" name="category" required>
-    <option value="" disabled selected>Select a category</option>
-    <option th:each="category : ${categories}"
-            th:value="${category.id}"
-            th:text="${category.name}">
-    </option>
-  </select>
+          <label id="check_complete_text" for="check_complete">목표를 이루었는지 체크하세요</label>
+          <input type="checkbox" id="check_complete" name="check_complete" th:field="*{check_complete}"><br>
 
-  <button type="submit">Create</button>
-</form>
-</body>
+          <button id="button" type="submit">완료</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 </html>

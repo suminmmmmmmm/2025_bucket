@@ -81,7 +81,7 @@ label {
     width: 100%;
 }
 
-input[type="text"], input[type="date"], select, input[type="file"] {
+input[type="text"], input[type="date"], select, input[type="file"] , input[type="checkbox"]{
     width: 100%;
     padding: 10px;
     font-size: 16px;
