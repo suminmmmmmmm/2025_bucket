@@ -78,8 +78,15 @@
                             </div>
                         </div>
                         <div class="p-3 list-content">
-                            <h5 th:text="${todoDto.getContent()}"></h5>
-                            <span th:text="'작성자: ' + ${todoDto.getNickname()}"></span>
+
+                            <h5 th:text="${todoDto.content}"></h5>
+                            <div style="display: flex" class="people-icon">
+                                <span class="material-symbols-outlined">account_circle</span>
+                                <span class="people-text" th:text="${todoDto.nickname}"></span>
+                            </div>
+
+                            <span th:text="'D-day : ' + ${todoDto.goalDay}"></span>
+
                         </div>
                     </a>
                 </div>

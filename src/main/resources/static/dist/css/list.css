@@ -56,6 +56,22 @@ a{
 .list-content{
     color: #222;
 }
+.people-icon{
+    display: flex;
+    .material-symbols-outlined{
+        background-color: #eee;
+        border-bottom-left-radius: 8px;
+        border-top-left-radius: 8px;
+        padding: 4px 0px 4px 8px;
+    }
+    .people-text{
+        padding: 4px 8px 4px 4px;
+        background-color:#eee;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+}
+
 /* nav-pills 색상 변경 */
 .nav-link.active{
     background-color: #222 !important;
