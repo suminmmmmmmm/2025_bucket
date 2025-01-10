@@ -21,7 +21,7 @@
                             <div class="card-header">
 
                                 <form method="get" action="/list"  id="categoryForm">
-                                    <select style="display: none" name="categoryId" id="categorySelect" onchange="this.form.submit()" >
+                                    <select style="display: none" name="categoryId" id="categorySelect" onchange="this.form.submit()">
                                         <option th:value="null" th:selected="${selectedCategory == null}">All Categories</option>
                                         <option th:each="category : ${categories}"
                                                 th:value="${category.id}"
@@ -32,12 +32,12 @@
                                     <ul class="nav nav-pills nav-justified">
                                         <li class="nav-item">
                                             <a href="/list" class="nav-link" th:text="전체"
-                                               th:classappend="${selectedCategory == null} ? 'active'"></a>
+                                               th:classappend="${categoryId == 0} ? 'active'"></a>
                                         </li>
                                         <li class="nav-item" th:each="category : ${categories}">
                                             <button th:value="${category.id}" type="button" class="nav-link"
-                                                    th:classappend="${selectedCategory == category.id} ? 'active'"
-                                                    th:onclick="'selectCategory(' + ${category.id} + ')'" th:text="${category.name}"></button>
+                                                    th:classappend="${categoryId == category.getId()} ? 'active'"
+                                                    th:onclick="|selectCategory(${category.getId()})|" th:text="${category.name}"></button>
                                         </li>
                                     </ul>
                                 </form>
