@@ -151,6 +151,10 @@ a {
     text-align: center;
 }
 
+#tdName{
+    text-align: left;
+}
+
 .comment_box {
     width: 100%;
     margin: 0 auto; /* 가운데 정렬 */
