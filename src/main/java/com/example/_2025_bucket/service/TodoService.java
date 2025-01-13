@@ -128,18 +128,29 @@ public class TodoService {
 //    }
 
     // 카테고리별 페이징 기능
-    public Page<TodoDto> getPageTodo(int page, int id){
+    public Page<TodoDto> getPageTodo(int page, int id, String kw){
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("uploadAt"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         Page<Todo> todos;
 
-        if(id == 0){
-            todos = this.todoRepository.findAllBy(pageable);
+        if(kw!=null){
+            if(id==0){
+                todos = this.todoRepository.findAllBykeyword(pageable, kw);
+            }
+            else{
+                todos = this.todoRepository.findAllBykeywordAndCategory(id, pageable, kw);
+            }
         }
-        else {
-            todos = this.todoRepository.findByCategoryId(id, pageable);
+        else{
+            if(id == 0){
+                todos = this.todoRepository.findAllBy(pageable);
+            }
+            else {
+                todos = this.todoRepository.findByCategoryId(id, pageable);
+            }
         }
+
 
         List<TodoDto> todoDtos = todos.getContent().stream().map(
                 todo -> TodoDto.builder()

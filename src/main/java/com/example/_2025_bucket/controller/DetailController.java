@@ -61,8 +61,9 @@ public class DetailController {
     @GetMapping("")
     public String showDetail(@RequestParam(value = "page", defaultValue = "0") int page,
                              @RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                             @RequestParam(value = "kw", required = false) String kw,
                              Model model){
-        Page<TodoDto> todos = this.todoService.getPageTodo(page, categoryId);
+        Page<TodoDto> todos = this.todoService.getPageTodo(page, categoryId, kw);
         model.addAttribute("categories", this.categoryService.getAllCategories());
         model.addAttribute("todos", todos);
         model.addAttribute("categoryId", categoryId);

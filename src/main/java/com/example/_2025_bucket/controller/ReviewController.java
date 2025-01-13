@@ -62,16 +62,14 @@ public class ReviewController {
     }
 
     @PostMapping("/modify/{id}")
-    public String modifyReview(@PathVariable("id") long id,
-                               @Valid ReviewForm reviewForm,
-                               BindingResult bindingResult,
+    public String modifyReview(@RequestParam("reviewIdSet") String id,
+                               @RequestParam("reviewContent") String content,
+                               @PathVariable("id") long todoId,
                                Authentication authentication) {
-        if (bindingResult.hasErrors()) {
-            return "review_modify";
-        }
         try{
-            ReviewDto reviewDto = this.reviewService.getReview(id);
-            reviewDto.setContent(reviewForm.getContent());
+            long reviewId = Long.parseLong(id);
+            ReviewDto reviewDto = this.reviewService.getReview(reviewId);
+            reviewDto.setContent(content);
             reviewDto.setModified_at(LocalDateTime.now());
             System.out.printf(reviewDto.toString());
             this.reviewService.update(reviewDto);
@@ -81,7 +79,7 @@ public class ReviewController {
 
         }
 
-        return "redirect:/list/detail/"+reviewForm.getTodoId();
+        return "redirect:/list/detail/"+todoId;
     }
 
     @GetMapping("/delete/{id}")

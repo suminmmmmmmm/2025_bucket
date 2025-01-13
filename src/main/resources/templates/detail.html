@@ -34,7 +34,7 @@
                         <div class="btn_box1">
                             <div class="comment" th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
                         </div>
-                        <div class="btn_box2">
+                        <div class="btn_box2" th:if="${todoDto.getUserDto().getEmail()==#authentication.getName()}">
                             <button id="btn2" type="button" th:onclick="|location.href='@{/list/modify/} + ${todoDto.getId()}'|">수정</button>
                             <button id="btn3" type="button" th:onclick="|location.href='@{/list/delete/} + ${todoDto.getId()}'|">삭제</button>
                         </div>
@@ -51,14 +51,51 @@
                                         th:if="${review.getModify_at()==null}" th:text="|${review.getUser().getNickname()} : ${#temporals.format(review.getCreate_at(), 'yyyy-MM-dd hh:mm')}|" ></td>
                                     <td th:if="${review.getModify_at()!=null}"
                                     th:text="|${review.getUser().getNickname()} : ${#temporals.format(review.getCreate_at(), 'yyyy-MM-dd hh:mm')}     수정됨|"></td>
-                                    <td></td>
+
                                 </tr>
                                 <tr>
                                     <td class="comment_list" th:text="|${review.getContent()}|"></td>
-                                    <td id ="td1"><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
-                                    <td id ="td2"><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+                                    <td id ="td1"><a th:data-reviewId="${review.getId()}" th:if="${review.getUser().getEmail()==#authentication.getName()}" th:attr="onclick=|setDisplay(${review.getId()})|">수정</a></td>
+                                    <td id ="td2"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/delete/${review.getId()}|">삭제</a></td>
                                 </tr>
+                                <tr th:id="|reviewForm${review.getId()}|" style="display: none">
+                                    <td><input type="hidden" th:id="|reviewId${review.getId()}|" th:value="${review.getId()}"></td>
+                                    <td><input type="text" name="modifyReview" th:id="|modifyReview${review.getId()}|"></td>
+                                    <td><input type="submit" value="수정하기" th:attr="onclick=|reviewModify(${review.getId()})|"></td>
+
+                                </tr>
+                                <script>
+                                    const setDisplay = function (id){
+                                        const rv = document.getElementById(`reviewForm${id}`)
+                                        if(rv.style.display === 'none'){
+                                            rv.style.display = 'block';
+                                        }
+                                        else{
+                                            rv.style.display = 'none'
+                                        }
+                                    }
+                                </script>
                             </table>
+                            <form th:action="|@{/review/modify/}${todoDto.getId()}|" id="reviewSubmit" method="post">
+                                <input type="hidden" name="reviewContent" id="reviewContent" th:value="${reviewContent}">
+                                <input type="hidden" name="reviewIdSet" id="reviewIdSet" th:value="${reviewIdSet}">
+                            </form>
+                            <script>
+                                //const reviewModify = document.getElementById(`submitReview${reivewId}`);
+                                // reviewModify.addEventListener('click', function (){
+                                //     document.getElementById("reviewContent").value = document.getElementById(`modifyReview${id}`).value;
+                                //     document.getElementById("reviewIdSet").value = document.getElementById(`reviewId`).value;
+                                //     document.getElementById("reviewSubmit").submit();
+                                //
+                                // });
+
+                                function reviewModify(id){
+                                    document.getElementById('reviewContent').value = document.getElementById(`modifyReview${id}`).value;
+                                    document.getElementById('reviewIdSet').value = id;
+                                    document.getElementById('reviewSubmit').submit();
+                                }
+
+                            </script>
                         </div>
                     </div>
                 </div>
