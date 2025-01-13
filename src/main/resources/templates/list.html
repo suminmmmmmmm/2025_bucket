@@ -88,7 +88,11 @@
                                 <span class="material-symbols-outlined">account_circle</span>
                                 <span class="people-text" th:text="${todoDto.nickname}"></span>
                             </div>
-
+                            <!--    좋아요 추가     -->
+                            <div style="display: flex" class="heart-icon">
+                                <span class="material-symbols-outlined heart">favorite</span>
+                                <span th:text="${likeCounts[todoDto.id]}"></span>
+                            </div>
                             <span th:text="'D-day : ' + ${todoDto.goalDay}"></span>
 
                         </div>

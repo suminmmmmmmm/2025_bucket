@@ -21,7 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -67,6 +69,17 @@ public class DetailController {
         model.addAttribute("categories", this.categoryService.getAllCategories());
         model.addAttribute("todos", todos);
         model.addAttribute("categoryId", categoryId);
+
+        // 각 Todo의 좋아요 수를 계산하여 모델에 추가 - list 화면에 보이도록 추가
+        Map<Long, Integer> likeCounts = new HashMap<>();
+        todos.forEach(todo -> {
+            long todo_id = todo.getId();
+            long likeCount = this.likeService.countLikeByTodoId(todo_id);
+            likeCounts.put(todo_id, (int) likeCount);
+        });
+        model.addAttribute("likeCounts", likeCounts);
+
+        
         return "list";
     }
 
