@@ -55,10 +55,47 @@
                                 </tr>
                                 <tr>
                                     <td class="comment_list" th:text="|${review.getContent()}|"></td>
-                                    <td id ="td1"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/modify/${review.getId()}|">수정</a></td>
+                                    <td id ="td1"><a th:data-reviewId="${review.getId()}" th:if="${review.getUser().getEmail()==#authentication.getName()}" th:attr="onclick=|setDisplay(${review.getId()})|">수정</a></td>
                                     <td id ="td2"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/delete/${review.getId()}|">삭제</a></td>
                                 </tr>
+                                <tr th:id="|reviewForm${review.getId()}|" style="display: none">
+                                    <td><input type="hidden" th:id="|reviewId${review.getId()}|" th:value="${review.getId()}"></td>
+                                    <td><input type="text" name="modifyReview" th:id="|modifyReview${review.getId()}|"></td>
+                                    <td><input type="submit" value="수정하기" th:attr="onclick=|reviewModify(${review.getId()})|"></td>
+
+                                </tr>
+                                <script>
+                                    const setDisplay = function (id){
+                                        const rv = document.getElementById(`reviewForm${id}`)
+                                        if(rv.style.display === 'none'){
+                                            rv.style.display = 'block';
+                                        }
+                                        else{
+                                            rv.style.display = 'none'
+                                        }
+                                    }
+                                </script>
                             </table>
+                            <form th:action="|@{/review/modify/}${todoDto.getId()}|" id="reviewSubmit" method="post">
+                                <input type="hidden" name="reviewContent" id="reviewContent" th:value="${reviewContent}">
+                                <input type="hidden" name="reviewIdSet" id="reviewIdSet" th:value="${reviewIdSet}">
+                            </form>
+                            <script>
+                                //const reviewModify = document.getElementById(`submitReview${reivewId}`);
+                                // reviewModify.addEventListener('click', function (){
+                                //     document.getElementById("reviewContent").value = document.getElementById(`modifyReview${id}`).value;
+                                //     document.getElementById("reviewIdSet").value = document.getElementById(`reviewId`).value;
+                                //     document.getElementById("reviewSubmit").submit();
+                                //
+                                // });
+
+                                function reviewModify(id){
+                                    document.getElementById('reviewContent').value = document.getElementById(`modifyReview${id}`).value;
+                                    document.getElementById('reviewIdSet').value = id;
+                                    document.getElementById('reviewSubmit').submit();
+                                }
+
+                            </script>
                         </div>
                     </div>
                 </div>
