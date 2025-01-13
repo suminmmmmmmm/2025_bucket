@@ -1,24 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{lib/layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>댓글수정</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Bucket List</title>
+    <link rel="stylesheet" href="/dist/css/bucket-create.css">
 </head>
-<body>
-<div th:text="|Todo : ${reviewForm.getTodoId()}|"></div>
-<div th:text="|Content : ${reviewForm.getContent()}|"></div>
-<div th:text="|Id : ${reviewForm.getId()}|"></div>
-<form method="post" th:object="${reviewForm}">
-    <div>
-        <label for="content">수정할 댓글</label>
-    </div>
-    <div>
-        <textarea th:field="*{content}" id="content" placeholder="수정할 댓글 입력"></textarea>
-    </div>
-    <div>
-        <input type="submit" value="수정">
-    </div>
-</form>
+<div class="wrapper" layout:fragment="content">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header list_title" style="background: white">
+            <div th:replace="lib/navibar.html :: frag_navibar"></div>
+            <div class="container-fluid">
+                <div class="row" style="justify-content: center">
+                    <div onclick="window.location.href='/list'" class="col-sm-6" style="cursor: pointer">
+                        <h3 class="m-0" style="text-align: center;font-family: fantasy">2025 Bucket List</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="box">
+                <form th:object="${reviewForm}" method="post" enctype="multipart/form-data">
+                    <label id="content_text" for="content">수정할 댓글을 입력하세요</label>
+                    <input type="text" id="content" name="content" th:field="*{content}" placeholder="수정할 댓글 입력" required><br>
 
-</body>
+                    <button id="button" type="submit">완료</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </html>
