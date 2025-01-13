@@ -16,4 +16,10 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     Page<Todo> findAllBy(Pageable pageable);
 
     Page<Todo> findByCategoryId(int categoryId, Pageable pageable);
+
+    @Query("SELECT distinct q from Todo q WHERE q.content like %:kw%")
+    Page<Todo> findAllBykeyword(Pageable pageable, String kw);
+
+    @Query("SELECT distinct q from Todo q WHERE q.category.id = :id and q.content like %:kw%")
+    Page<Todo> findAllBykeywordAndCategory(int id, Pageable pageable, String kw);
 }
