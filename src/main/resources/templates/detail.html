@@ -51,13 +51,14 @@
                                         th:if="${review.getModify_at()==null}" th:text="|${review.getUser().getNickname()} : ${#temporals.format(review.getCreate_at(), 'yyyy-MM-dd hh:mm')}|" ></td>
                                     <td th:if="${review.getModify_at()!=null}"
                                     th:text="|${review.getUser().getNickname()} : ${#temporals.format(review.getCreate_at(), 'yyyy-MM-dd hh:mm')}     수정됨|"></td>
-                                    <td></td>
+
                                 </tr>
                                 <tr>
                                     <td class="comment_list" th:text="|${review.getContent()}|"></td>
-                                    <td id ="td1"><a th:href="|/review/modify/${review.getId()}|">수정</a></td>
-                                    <td id ="td2"><a th:href="|/review/delete/${review.getId()}|">삭제</a></td>
+                                    <td id ="td1"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/modify/${review.getId()}|">수정</a></td>
+                                    <td id ="td2"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/delete/${review.getId()}|">삭제</a></td>
                                 </tr>
+
                             </table>
                         </div>
                     </div>
