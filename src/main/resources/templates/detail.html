@@ -34,7 +34,7 @@
                         <div class="btn_box1">
                             <div class="comment" th:text="|댓글수: ${todoDto.getReviews().size()}|"></div>
                         </div>
-                        <div class="btn_box2">
+                        <div class="btn_box2" th:if="${todoDto.getUserDto().getEmail()==#authentication.getName()}">
                             <button id="btn2" type="button" th:onclick="|location.href='@{/list/modify/} + ${todoDto.getId()}'|">수정</button>
                             <button id="btn3" type="button" th:onclick="|location.href='@{/list/delete/} + ${todoDto.getId()}'|">삭제</button>
                         </div>
@@ -58,7 +58,6 @@
                                     <td id ="td1"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/modify/${review.getId()}|">수정</a></td>
                                     <td id ="td2"><a th:if="${review.getUser().getEmail()==#authentication.getName()}" th:href="|/review/delete/${review.getId()}|">삭제</a></td>
                                 </tr>
-
                             </table>
                         </div>
                     </div>
