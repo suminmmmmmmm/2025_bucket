@@ -27,7 +27,7 @@
                     <div class="date" th:text="|목표기간: ${todoDto.getGoalDay()}|"></div>
                     <div class="complete" th:text="|달성여부: ${todoDto.isCheckComplete() ? '완료' : '미완료'}|"></div>
                     <div class="category" th:text="|카테고리: ${todoDto.getCategoryDto().name}|"></div>
-                    <button id="btn4" th:text="|좋아요 ${liked}|" th:onclick="|location.href='@{/like/}' + ${todoDto.getId()}|"></button>
+                    <button id="btn4" style="background: orangered" th:text="|좋아요 ${liked}|" th:onclick="|location.href='@{/like/}' + ${todoDto.getId()}|"></button>
                     <div class="line1"></div>
 
                     <div class="btn">
