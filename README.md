@@ -2,7 +2,7 @@
 | 2025.01.02 ~ 2025.01.13
 ### 프로젝트명 (5인 팀 프로젝트)
 > 2025년을 맞아 새해 목표와 개인적인 꿈을 공유하고 기록할 수 있는 플랫폼 2025 버킷리스트
-> 노션 링크 : https://www.notion.so/Mini-PJT-1-8-16ffbb38705d803dafa1d53a27b429d0?source=copy_link
+# 노션 링크 : https://www.notion.so/Mini-PJT-1-8-16ffbb38705d803dafa1d53a27b429d0?source=copy_link
 
 
 |역할 분담 | 상세 내용 |
